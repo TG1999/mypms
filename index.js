@@ -487,7 +487,7 @@ app.post('/addproject',(req,res)=>{
     let location=req.body.location;
     let start=req.body.start;
     let end=req.body.end;
-    var ref=firebase.database().ref(hash+'/Project').push();
+    var ref=firebase.database().ref(req.cookies.hash+'/Project').push();
     var key=ref.key;
     var data={
         endDate:end,
@@ -500,110 +500,110 @@ app.post('/addproject',(req,res)=>{
     workStatus:0
     }
     ref.set(data);
-    let countofmaterial=req.body.n_boq;
-    let countoftask=req.body.n_tasks;
-    let countofsites=req.body.n_site;
-    console.log(req.body.type_boq);
-    console.log(req.body.type_task);
-    if(countofsites==1){
-        site={
-            endDate:req.body.end_site,
-            location:req.body.name_site,
-            siteId:req.body.name_site,
-            siteLeader:req.body.leader_site.split('/')[0],
-            siteMaterialStatus:0,
-            siteWorkStatus:0,
-            startDate:req.body.start_site
-        }
-        firebase.database().ref(hash+'/Site').child(ref.key).child(req.body.name_site).set(site)
-        // firebase.database().ref('/User/'+req.body.leader_site.split('/')[1]).child('projectId').set(ref.key).then(()=>{
+    // let countofmaterial=req.body.n_boq;
+    // let countoftask=req.body.n_tasks;
+    // let countofsites=req.body.n_site;
+    // console.log(req.body.type_boq);
+    // console.log(req.body.type_task);
+    // if(countofsites==1){
+    //     site={
+    //         endDate:req.body.end_site,
+    //         location:req.body.name_site,
+    //         siteId:req.body.name_site,
+    //         siteLeader:req.body.leader_site.split('/')[0],
+    //         siteMaterialStatus:0,
+    //         siteWorkStatus:0,
+    //         startDate:req.body.start_site
+    //     }
+    //     firebase.database().ref(hash+'/Site').child(ref.key).child(req.body.name_site).set(site)
+    //     // firebase.database().ref('/User/'+req.body.leader_site.split('/')[1]).child('projectId').set(ref.key).then(()=>{
             
-        // });
-    }
-    else{
-        for(i=0;i<countofsites;i++){
-            site={
-                endDate:req.body.end_site[i],
-                location:req.body.name_site[i],
-                siteId:req.body.name_site[i],
-                siteLeader:req.body.leader_site[i].split('/')[0],
-                siteMaterialStatus:0,
-                siteWorkStatus:0,
-                startDate:req.body.start_site[i]
-            }
-            firebase.database().ref(hash+'/Site').child(ref.key).child(req.body.name_site[i]).set(site)
-            // firebase.database().ref('/User/'+req.body.leader_site[i].split('/')[1]).child('projectId').set(ref.key).then(()=>{
+    //     // });
+    // }
+    // else{
+    //     for(i=0;i<countofsites;i++){
+    //         site={
+    //             endDate:req.body.end_site[i],
+    //             location:req.body.name_site[i],
+    //             siteId:req.body.name_site[i],
+    //             siteLeader:req.body.leader_site[i].split('/')[0],
+    //             siteMaterialStatus:0,
+    //             siteWorkStatus:0,
+    //             startDate:req.body.start_site[i]
+    //         }
+    //         firebase.database().ref(hash+'/Site').child(ref.key).child(req.body.name_site[i]).set(site)
+    //         // firebase.database().ref('/User/'+req.body.leader_site[i].split('/')[1]).child('projectId').set(ref.key).then(()=>{
               
-            // });
-        }
-    }
-    if(countofmaterial==1){
-        material={
-            boqquantity:req.body.qty_boq,
-            materialName:req.body.name_boq,
-            procuredQuantity:0,
-            projectId:ref.key,
-            unit:req.body.type_boq
-        }
-        console.log(material.unit);
-        firebase.database().ref(hash+'/ProjectMaterials').child(ref.key).child(req.body.name_boq).set(material)
-    }
-    else{
-        for(i=0;i<countofmaterial;i++){
-            material={
-                boqquantity:req.body.qty_boq[i],
-                materialName:req.body.name_boq[i],
-                procuredQuantity:0,
-                projectId:ref.key,
-                unit:req.body.type_boq[i]
-            }
-            console.log(material.unit);
-            firebase.database().ref(hash+'/ProjectMaterials').child(ref.key).child(req.body.name_boq[i]).set(material)
-        }
-    }
-    if(countoftask==1){
-        var rf=firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task).push();
-        task={
-            projectId:ref.key,
-            taskCount:req.body.qty_task,
-            taskCountDone:0,
-            taskDescription:req.body.description_task,
-            taskId:req.body.name_task,
-            taskName:req.body.name_task,
-            unit:req.body.type_task,
-            taskCountAssigned:0
-        }
-        firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task).set(task);   
-    }
-    else{
-    for(i=0;i<countoftask;i++){
-        var rf=firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task[i]).push();
-        task={
-            projectId:ref.key,
-            taskCount:req.body.qty_task[i],
-            taskCountDone:0,
-            taskDescription:req.body.description_task[i],
-            taskId:req.body.name_task[i],
-            taskName:req.body.name_task[i],
-            unit:req.body.type_task[i],
-            taskCountAssigned:0
-        }
-        firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task[i]).set(task);
-    }}
-    proid=ref.key;
-    firebase.database().ref(hash+'/Site/'+proid).once('value',(snapshot,err)=>{
-        sites=[];
-        var site=snapshot.val();
-        for(var key in site){
-            var each=site[key];
-            var json={
-                location:each.location,
-                id:each.siteId
-            }
-            sites.push(json);
-        }
-        res.render('task_site',{sites:sites})
-    })
+    //         // });
+    //     }
+    // }
+    // if(countofmaterial==1){
+    //     material={
+    //         boqquantity:req.body.qty_boq,
+    //         materialName:req.body.name_boq,
+    //         procuredQuantity:0,
+    //         projectId:ref.key,
+    //         unit:req.body.type_boq
+    //     }
+    //     console.log(material.unit);
+    //     firebase.database().ref(hash+'/ProjectMaterials').child(ref.key).child(req.body.name_boq).set(material)
+    // }
+    // else{
+    //     for(i=0;i<countofmaterial;i++){
+    //         material={
+    //             boqquantity:req.body.qty_boq[i],
+    //             materialName:req.body.name_boq[i],
+    //             procuredQuantity:0,
+    //             projectId:ref.key,
+    //             unit:req.body.type_boq[i]
+    //         }
+    //         console.log(material.unit);
+    //         firebase.database().ref(hash+'/ProjectMaterials').child(ref.key).child(req.body.name_boq[i]).set(material)
+    //     }
+    // }
+    // if(countoftask==1){
+    //     var rf=firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task).push();
+    //     task={
+    //         projectId:ref.key,
+    //         taskCount:req.body.qty_task,
+    //         taskCountDone:0,
+    //         taskDescription:req.body.description_task,
+    //         taskId:req.body.name_task,
+    //         taskName:req.body.name_task,
+    //         unit:req.body.type_task,
+    //         taskCountAssigned:0
+    //     }
+    //     firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task).set(task);   
+    // }
+    // else{
+    // for(i=0;i<countoftask;i++){
+    //     var rf=firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task[i]).push();
+    //     task={
+    //         projectId:ref.key,
+    //         taskCount:req.body.qty_task[i],
+    //         taskCountDone:0,
+    //         taskDescription:req.body.description_task[i],
+    //         taskId:req.body.name_task[i],
+    //         taskName:req.body.name_task[i],
+    //         unit:req.body.type_task[i],
+    //         taskCountAssigned:0
+    //     }
+    //     firebase.database().ref(hash+'/ProjectTask').child(ref.key).child(req.body.name_task[i]).set(task);
+    // }}
+    // proid=ref.key;
+    // firebase.database().ref(hash+'/Site/'+proid).once('value',(snapshot,err)=>{
+    //     sites=[];
+    //     var site=snapshot.val();
+    //     for(var key in site){
+    //         var each=site[key];
+    //         var json={
+    //             location:each.location,
+    //             id:each.siteId
+    //         }
+    //         sites.push(json);
+    //     }
+    // })
+    res.redirect('/dashboard')
 })
 var siteid="";
 app.get('/dashboard/details',(req,res)=>{
