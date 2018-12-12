@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Dashboard</title>
+    <style>
+      #fixedbutton {
+    background-color:palevioletred;
+    border: none;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    border-radius:50%;
+     position: fixed;
+    bottom: 30px;
+    right: 30px; 
+}
+    </style>
+    <!-- Bootstrap core CSS-->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Page level plugin CSS-->
+    <link href="/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+
+  </head>
+
+  <body id="page-top">
+
+    <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
+
+      <a class="navbar-brand mr-1" href="#">Dashboard</a>
+      
+      <!-- Navbar -->
+      <ul class="navbar-nav ml-auto ml-md-0">
+        
+      </ul>
+
+    </nav>
+
+    <div id="wrapper">
+
+      <!-- Sidebar -->
+
+      <div id="content-wrapper">
+
+        <div class="container-fluid">
+
+          <!-- Breadcrumbs-->
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+              <a href=""></a>Dashboard</a>
+            </li>
+            <li class="breadcrumb-item active"></li>
+          </ol>
+          <a href="/spread.csv" download="report">DOWNLOAD</a>
+          <!-- Icon Cards-->
+          <div class="row">
+            <div class="col-lg-8">
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fas fa-chart-bar"></i>
+                  Timeline</div>
+                <div class="card-body">
+                  <canvas id="myBarChart" width="100%" height="50"></canvas>
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+              </div>
+            </div>
+            </div>
+
+          <!-- Area Chart Example-->
+        <!-- /.container-fluid -->
+
+
+      </div>
+      <!-- /.content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+  <div id="startdate" style="display:none">{{site.startDate}}</div>
+  <div id="enddate" style="display:none">{{site.endDate}}</div>
+  <div id="work" style="display:none">{{site.work}}</div>
+  <div id="material" style="display:none">{{site.material}}</div>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+      <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="/js/demo/datatables-demo.js"></script>
+    <script src="/js/demo/chart-area-demo.js"></script>
+  </body>
+
+</html>
+
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="/vendor/jquery/jquery.min.js"></script>
+    <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Page level plugin JavaScript-->
+    <script src="/vendor/chart.js/Chart.min.js"></script>
+    <script src="/vendor/datatables/jquery.dataTables.js"></script>
+    <script src="/vendor/datatables/dataTables.bootstrap4.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/js/sb-admin.min.js"></script>
+
+    <!-- Demo scripts for this page-->
+    <script src="../js/demo/datatables-demo.js"></script>
+    <script src="../js/demo/chart-area-demo.js"></script>
+    <script>
+      // Set new default font family and font color to mimic Bootstrap's default styling
+Chart.defaults.global.defaultFontFamily = '-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+Chart.defaults.global.defaultFontColor = '#292b2c';
+var startdate=document.getElementById('startdate').innerHTML;
+console.log(startdate);
+var datearray = startdate.split("/");
+startdate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+startdate=new Date(startdate)
+var enddate=document.getElementById('enddate').innerHTML;
+var datearray=enddate.split('/');
+enddate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+enddate=new Date(enddate);
+var today=new Date();
+//startdate=startdate.getDate();
+//enddate=enddate.getDate();
+//today=today.getDate();
+console.log("start",startdate);
+console.log("end",enddate);
+console.log('today',today);
+console.log((enddate-startdate));
+console.log(today-startdate);
+// Bar Chart Example
+var ctx = document.getElementById("myBarChart");
+var ctx1=document.getElementById("myBarChart1");
+var ctx2=document.getElementById("myBarChart2");
+var planned=(enddate-startdate)/86400000;
+var myLineChart = new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ["Planned","Completed","Work Status Planned","Work Status Completed","Material Status Planned","Material Status Completed"],
+    datasets: [{
+      label: "Timeline",
+      backgroundColor: ["rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey"],
+      borderColor: "rgba(2,117,216,1)",
+      data: [planned,(today-startdate)/86400000,(1*planned),(document.getElementById('work').innerHTML*planned),(1*planned),(document.getElementById('material').innerHTML*planned)],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+var myLineChart = new Chart(ctx1, {
+  type: 'bar',
+  data: {
+    labels: ["Site 1 Planned","Site 1 Completed","Site 2 Planned","Site 2 Completed","Site 3 Planned","Site 3 Completed","Site 4 Planned","Site 4 Completed","Site 5 Planned","Site 5 Completed"],
+    datasets: [{
+      label: "Timeline",
+      backgroundColor: ["rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey"],
+      borderColor: "rgba(2,117,216,1)",
+      data: [(document.getElementById("task0"))?10:0,((document.getElementById("task0"))?document.getElementById("task0").innerHTML*10:0),(document.getElementById("task1"))?10:0,((document.getElementById("task1"))?document.getElementById("task1").innerHTML*10:0),(document.getElementById("task2"))?10:0,((document.getElementById("task2"))?document.getElementById("task2").innerHTML*10:0),(document.getElementById("task3"))?10:0,((document.getElementById("task3"))?document.getElementById("task3").innerHTML*10:0),(document.getElementById("task4"))?10:0,((document.getElementById("task4"))?document.getElementById("task4").innerHTML*10:0)],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 10,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+var myLineChart = new Chart(ctx2, {
+  type: 'bar',
+  data: {
+    labels: ["Site 1 Planned","Site 1 Completed","Site 2 Planned","Site 2 Completed","Site 3 Planned","Site 3 Completed","Site 4 Planned","Site 4 Completed","Site 5 Planned","Site 5 Completed"],
+    datasets: [{
+      label: "Timeline",
+      backgroundColor: ["rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey","rgba(2,117,216,1)","grey"],
+      borderColor: "rgba(2,117,216,1)",
+      data: [(document.getElementById("mat0"))?10:0,((document.getElementById("mat0"))?document.getElementById("mat0").innerHTML*10:0),(document.getElementById("mat1"))?10:0,((document.getElementById("mat1"))?document.getElementById("mat1").innerHTML*10:0),(document.getElementById("mat2"))?10:0,((document.getElementById("mat2"))?document.getElementById("mat2").innerHTML*10:0),(document.getElementById("mat3"))?10:0,((document.getElementById("mat3"))?document.getElementById("mat3").innerHTML*10:0),(document.getElementById("mat4"))?10:0,((document.getElementById("mat4"))?document.getElementById("mat4").innerHTML*10:0)],
+    }],
+  },
+  options: {
+    scales: {
+      xAxes: [{
+        time: {
+          unit: 'month'
+        },
+        gridLines: {
+          display: false
+        },
+        ticks: {
+          maxTicksLimit: 6
+        }
+      }],
+      yAxes: [{
+        ticks: {
+          min: 0,
+          max: 10,
+          maxTicksLimit: 5
+        },
+        gridLines: {
+          display: true
+        }
+      }],
+    },
+    legend: {
+      display: false
+    }
+  }
+});
+
+    </script>
+  </body>
+
+</html>
+
+
+
+
+
+
+
+
+

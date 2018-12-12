@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>SB Admin - Login</title>
+
+    <!-- Bootstrap core CSS-->
+    <link href="../../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom fonts for this template-->
+    <link href="../../vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom styles for this template-->
+    <link href="../../css/sb-admin.css" rel="stylesheet">
+
+  </head>
+
+  <body class="bg-dark">
+
+    <div class="container">
+      <div class="card card-login mx-auto mt-5">
+        <div class="card-header">ADD PROJECT DETAILS HERE</div>
+        <div class="card-body">
+          <form method="POST" action="/edit/material">
+            <div class="form-group">
+              <div class="form-label-group">
+                <input type="text" id="inputEmail" name="pname" value="{{details.materialName}}" class="form-control" placeholder="Project Name" required="required" autofocus="autofocus" disabled>
+                <label for="inputEmail">Boq Name</label>
+              </div>
+              <div class="form-label-group">
+                <input type="text" value="{{details.boqquantity}}" id="inputEmail" name="qty" class="form-control" placeholder="Project Name" required="required" autofocus="autofocus">
+                <label for="inputEmail">Quantity</label>
+              </div>
+              <div class="form-label-group">
+                <input type="text" id="inputEmail" value="{{details.unit}}" name="unit" class="form-control" placeholder="Project Name" required="required" autofocus="autofocus" disabled>
+                <label for="inputEmail">Unit</label>
+              </div>
+              <button class="btn btn-primary btn-block" type="submit" >UPDATE MATERIAL</button>
+              </form>
+            </div>
+            </div>
+            
+        </div>
+      </div>
+    </div>
+  <div id="leaders" style="display:none">
+    {{#each name}}
+    {{this.id}}/{{this.key}}+
+    {{/each}}
+  </div>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../../vendor/jquery/jquery.min.js"></script>
+    <script src="../../vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="../../vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script>
+    $('#task').keyup(function(){
+    var a = $(this).val();
+    var val=parseInt(a);
+    console.log(val);
+    html=``;
+    for(i=0;i<val;i++){
+      html=html+`<div class="form-group">
+                <input type="text" id="inputEmail" name="name_task" class="form-control" placeholder="Task Name" required="required" autofocus="autofocus">
+              
+                <input type="text" id="inputEmail" name="description_task" class="form-control" placeholder="Task Description" required="required" autofocus="autofocus">
+              
+              
+              
+                <input type="text" id="inputEmail" name="qty_task" class="form-control" placeholder="Task Quantity" required="required" autofocus="autofocus">
+              <select name="type_task">
+                <option val="Nos">Nos</option>
+                <option val="Mtr">Mtr</option>
+                <option val="Km">Km</option>
+                </select>
+                </div>
+              `
+    }
+    $('#tasks1').html(html)
+});
+$('#boq').keyup(function(){
+    var a = $(this).val();
+    var val=parseInt(a);
+    console.log(val);
+    html=``;
+    for(i=0;i<val;i++){
+      html=html+`<div class="form-group">
+      <div class="form-label-group">
+                <input type="text" id="inputEmail" name="name_boq" class="form-control" placeholder="Task Name" required="required" autofocus="autofocus">
+                <label for="inputEmail">Boq Name</label>
+              </div>
+              <div class="form-label-group">
+                <input type="text" id="inputEmail" name="qty_boq" class="form-control" placeholder="Task Description" required="required" autofocus="autofocus">
+                <label for="inputEmail">Boq Quantity</label>
+              </div>
+              <select name="type_boq">
+                <option value="Nos">Nos</option>
+                <option value="gram">gram</option>
+                <option value="Kg">Kg</option>
+                <option value="Mtr">Mtr</option>
+                <option value="Km">Km</option>
+                <option value="litre">litre</option>
+                <option value="ml">ml</option>
+              </select>
+              </div>
+              `
+    }
+    $('#boq1').html(html)
+});
+ $('#site').keyup(function(){
+    var a = $(this).val();
+    var val=parseInt(a);
+    console.log(val);
+    html=``;
+    html1=``;
+    leaders=$('#leaders').html().split('+');
+    for(x=0;x<leaders.length;x++){
+      html1=html1+`
+                <option value="${leaders[x]}">${leaders[x].split('/')[0]}</option>`
+    }
+    console.log(html1)
+    for(i=0;i<val;i++){
+      html=html+`<div class="form-group">
+                <input type="text" id="inputEmail" name="name_site" class="form-control" placeholder="Task Name" required="required" autofocus="autofocus">
+                <select name="leader_site">`+
+                html1+
+                `</select>
+                <input type="date" placeholder="Start Date" id="inputEmail" name="start_site" class="form-control" placeholder="Project Name" required="required" autofocus="autofocus">
+                <input type="date" placeholder="End Date" id="inputEmail" name="end_site" class="form-control" placeholder="Project Name" required="required" autofocus="autofocus">
+                </div>
+              `
+    }
+    $('#site1').html(html)
+});
+  </script>
+  </body>
+
+</html>
