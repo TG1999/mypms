@@ -228,7 +228,12 @@
                                             <td>
                                                 <h4 class="m-b-0 font-16"><input type="text" id="name_site" name="name_site" class="form-control" placeholder="Site Location"/><input type="text" id="project" name="project" class="form-control" value="{{projectdetails.0.projectId}}" hidden /></h4>
                                             </td>
-                                            <td><input type="text" id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name" /></td>
+                                            {{!-- <td><input type="text" id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name" /></td> --}}
+                                            <td><select id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name">
+  {{#each name}}
+  <option value="{{this.key}}">{{this.id}}</option>
+  {{/each}}
+</select></td>
                                             <td><input type="text" id="start_site" name="start_site" class="form-control" placeholder="Start Date" /></td>
                                             <td><input type="text" id="end_site" name="end_site" class="form-control" placeholder="End Date"/>
                                                 <input type="text" id="n_site" name="n_site" class="form-control" placeholder="End Date" hidden /></td>
@@ -367,7 +372,7 @@
 
         function addsiterow(){
             if(sitelimit < 10){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" id="site" name="n_site" class="form-control" placeholder="Site" required/></h4></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Leader Name" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Start Date" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="End Date" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" id="site" name="n_site" class="form-control" placeholder="Site" required/></h4></td><td></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Start Date" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="End Date" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
             $('#tbody-site').append(html);
             sitelimit++;
             document.getElementById('n_site').value=sitelimit;
