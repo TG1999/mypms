@@ -56,6 +56,8 @@ app.get('/hello',(req,res)=>{
                 hash=each.companyHash
                 res.cookie('hash',hash)
                 res.cookie('flag',str_tr)
+                res.cookie('companyName',each.companyName)
+                res.cookie('userName',each.name)
                 console.log(hash)
                 return res.redirect('/dashboard')
             }
@@ -259,7 +261,7 @@ app.post('/append',(req,res)=>{
         }
         if (!(req.body.name_site==="")&&(req.body.end_site)&&(req.body.name_site)&&(req.body.leader_site)&&(req.body.start_site)){
             console.log('sites');
-       if(!(firebase.database().ref(hash+'/Site').child(projectId).child(req.body.name_site).set(site))){
+       if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(req.body.name_site).set(site))){
             flag=true
        } 
         // firebase.database().ref('/User/'+req.body.leader_site.split('/')[1]).child('projectId').set(ref.key).then(()=>{
@@ -277,7 +279,7 @@ app.post('/append',(req,res)=>{
                 siteWorkStatus:0,
                 startDate:req.body.start_site[i]
             }
-            if(!(firebase.database().ref(hash+'/Site').child(projectId).child(req.body.name_site[i]).set(site))){
+            if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(req.body.name_site[i]).set(site))){
                 flag=true;
             }
             // firebase.database().ref('/User/'+req.body.leader_site[i].split('/')[1]).child('projectId').set(ref.key).then(()=>{
@@ -294,7 +296,7 @@ app.post('/append',(req,res)=>{
         }
         console.log(material.unit);
         if (!(material.materialName ==='')&&(req.body.qty_boq)&&(req.body.name_boq)&&(req.body.type_boq)){
-       if(!(firebase.database().ref(hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq).set(material)))
+       if(!(firebase.database().ref(req.cookies.hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq).set(material)))
        {
            flag=true;
        } 
@@ -309,7 +311,7 @@ app.post('/append',(req,res)=>{
                 unit:req.body.type_boq[i]
             }
             console.log(material.unit);
-            if(!(firebase.database().ref(hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq[i]).set(material)))
+            if(!(firebase.database().ref(req.cookies.hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq[i]).set(material)))
             {
                 flag=true
             }
@@ -328,7 +330,7 @@ app.post('/append',(req,res)=>{
             taskCountAssigned:0
         }
         if (!(req.body.name_task ==='')){
-        if(!(firebase.database().ref(hash+'/ProjectTask').child(projectId).child(req.body.name_task).set(task))){
+        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(req.body.name_task).set(task))){
             flag=true
         }
         }
@@ -345,7 +347,7 @@ app.post('/append',(req,res)=>{
             unit:req.body.type_task[i],
             taskCountAssigned:0
         }
-        if(!(firebase.database().ref(hash+'/ProjectTask').child(req.body.name_task[i]).set(task))){
+        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(req.body.name_task[i]).set(task))){
             flag=true
         }
     }}
