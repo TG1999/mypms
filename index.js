@@ -103,7 +103,7 @@ app.get('/dashboard',(req,res)=>{
                     arr.push(jsn);
                     if(i<3){i=i+1;}else{i=0}
             }
-            console.log(arr);
+            // console.log(arr);
             return res.render('dashboard_ui.hbs',{data:arr});
             });
     }
@@ -755,14 +755,14 @@ app.post('/dashboard/details/site',(req,res)=>{
         res.render('site_form',{details:site});
     })
 })
-app.post('/edit/task',(req,res)=>{
-    task.taskCount=req.body.qty;
-    task.taskDescription=req.body.des;
-    firebase.database().ref(hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
+app.post('/editProjectTask',(req,res)=>{
+    task={};
+    firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
+    console.log('edit the task is here')
     res.redirect('/dashboard');
 })
-app.post('/edit/material',(req,res)=>{
-    boq.boqquantity=req.body.qty;
+app.post('/editmaterial',(req,res)=>{
+    boq={};
     firebase.database().ref(hash+'/ProjectTask/'+reditid+'/'+boqid).set(boq);
     res.redirect('/dashboard');
 })
