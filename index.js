@@ -425,14 +425,19 @@ app.get("/dashboard/viewproject",(req,res)=>{
                         crr.push(mat[key]);
                     }
                   	console.log("taskarray: "+JSON.stringify(crr));
-
-                  	if(!(req.query.err))
+                    firebase.database().ref(req.cookies.hash+'/Project/'+id).once('value',(snapshot,err)=>{
+                     console.log('Project:'+snapshot.val());
+                     var project=snapshot.val();
+                     console.log(project);
+                     if(!(req.query.err))
                 	{console.log("crr: "+JSON.stringify(crr));
-                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr});
+                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project});
 	                }else{
 	                	console.log("crr: "+JSON.stringify(crr));
-	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr});
-	                }
+	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project});
+	                }   
+                    })
+                  	
                 	})
                    
                 })
