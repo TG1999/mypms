@@ -406,9 +406,15 @@ app.get("/dashboard/viewproject",(req,res)=>{
                             }
                             arr.push(jsn)
                         }
+                        var brr=[];
+                        var crr=[];
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
                 firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
+                    var mat=snapshot.val();
+                    for(var key in mat){
+                        brr.push(mat[key]);
+                    }
                     json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
                         if (err) console.log(err);
                         fs.writeFile('./public_static/spread.csv', csv, function(err) {
@@ -418,6 +424,10 @@ app.get("/dashboard/viewproject",(req,res)=>{
                       });
                 })
                 firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
+                    var mat=snapshot.val();
+                    for(var key in mat){
+                        crr.push(mat[key]);
+                    }
                     json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
                         if (err) console.log(err);
                         fs.writeFile('./public_static/spread_1.csv', csv, function(err) {
@@ -454,9 +464,9 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     console.log(countme);
                 })      
                 if(!(req.query.err))
-                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count});
+                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr});
                 else
-                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err});
+                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr});
                     })
                 }
               }
