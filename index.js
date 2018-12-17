@@ -756,15 +756,35 @@ app.post('/dashboard/details/site',(req,res)=>{
     })
 })
 app.post('/editProjectTask',(req,res)=>{
-    task={};
-    firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
-    console.log('edit the task is here')
-    res.redirect('/dashboard');
+    // task={};
+    reditid=req.body.proid;
+    taskid=req.body.taskid;
+    console.log(taskid);
+    firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).once('value',(snapshot,err)=>{
+        var task=snapshot.val();
+        console.log(task.taskName);
+        task.taskDescription=req.body.taskdescription;
+        task.taskCount=req.body.count;
+        task.taskCountDone=req.body.donecount;
+        task.unit=req.body.unit;
+        firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
+        
+    })
+    
+    res.redirect('/dashboard/viewproject?project='+reditid)
 })
-app.post('/editmaterial',(req,res)=>{
-    boq={};
-    firebase.database().ref(hash+'/ProjectTask/'+reditid+'/'+boqid).set(boq);
-    res.redirect('/dashboard');
+app.post('/editProjectMaterial',(req,res)=>{
+    reditid=req.body.proid;
+    boqid=req.body.materialName1;
+    console.log(boqid);
+    firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).once('value',(snapshot,err)=>{
+        boq=snapshot.val();
+        boq.boqquantity=req.body.boqquantity;
+        boq.procuredQuantity=req.body.procuredQuantity;
+        boq.unit=req.body.unit2;
+        firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).set(boq);
+    })
+    res.redirect('/dashboard/viewproject?project='+reditid)
 })
 app.post('/edit/site',(req,res)=>{
     site.location=req.body.location;
