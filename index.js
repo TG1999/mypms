@@ -761,6 +761,21 @@ app.post('/dashboard/details/site',(req,res)=>{
         res.render('site_form',{details:site});
     })
 })
+app.post('/editProject',(req,res)=>{
+    reditid=req.body.proid;
+    firebase.database().ref(req.cookies.hash+'/Project/'+reditid).once('value',(snapshot,err)=>{
+        var project=snapshot.val();
+        console.log(task.taskName);
+        project.endDate=req.body.endDate;
+        project.location=req.body.location;
+        project.startDate=req.body.startDate;
+        project.projectManager=req.body.projectManager;
+        task.unit=req.body.unit;
+        firebase.database().ref(req.cookies.hash+'/Project/'+reditid).set(project);
+    })
+    
+    res.redirect('/dashboard/viewproject?project='+reditid)
+})
 app.post('/editProjectTask',(req,res)=>{
     // task={};
     reditid=req.body.proid;
