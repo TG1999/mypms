@@ -374,6 +374,7 @@
                                             <div class="modal-body">
                                                 <form method="POST" action="/editProjectTask">
                                                     
+                                                    <input type="text" class="form-control" name='proid' id="proid" value="{{data.proid}}" hidden="hidden">
                                                     <input type="text" class="form-control" name='taskid' id="Task Id" hidden="hidden">
                                                     
                                                     <div class="form-group">
@@ -470,8 +471,8 @@
                                             <div class="modal-body">
                                                 <form method="POST" action="/editProjectMaterial">
                                                     
-                                                    <input type="text" class="form-control" name='Task Id' id="Task Id" hidden="hidden">
-                                                    
+                                                    <input type="text" class="form-control" name='proid' id="proid" value="{{data.proid}}" hidden="hidden">
+                                                                                                      
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Material Name</label>
                                                         <input type="text" class="form-control" name='materialName' id="materialName" disabled="disabled">
