@@ -300,15 +300,15 @@
                                             <td><label class="label label-info">{{this.endDate}}</label></td>
                                         </tr>
                                         {{/each}}
-                                       
                                     </tbody>
-                                </table>
+                                </table>                  
                             </div>
+
                         </div>
                     </div>
                 </div>
                
-                
+               
 
                 <div class="row">
                     <!-- column -->
@@ -343,42 +343,69 @@
                                         </tr>
                                     </thead>
                                     <tbody id="table-body-id1">
-                                        <tr>
+                                        {{#each crr}}
+                                       <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"></div>
+                                                    <div class="m-r-10"><span task="{{this.taskId}}"></span></div>
                                                     <div class="">
-                                                        <h4 class="m-b-0 font-16">create and plane of the path</h4>
+                                                        <h4 class="m-b-0 font-16"><taskName taskName='{{this.taskName}}'>{{this.taskName}}</taskName></h4>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>none</td>
-                                            <td>
-                                                <label>10</label>
-                                            </td>
-                                            <td><label>0</label></td>
-                                            <td><label>Km</label></td>
-                                            
+                                            <td><taskDescription taskdescription='{{this.taskDescription}}'>{{this.taskDescription}}</taskDescription></td>
+                                            <td> <taskCount taskCount='{{this.taskCount}}'>{{this.taskCount}}</taskCount></td>
+                                            <td><taskCountDone taskCountDone='{{this.taskCountDone}}'> {{this.taskCountDone}}</taskCountDone></td>
+                                            <td><unit unit='{{this.unit}}'>{{this.unit}}</unit></td>
                                         </tr>
-                                         <tr>
-                                            <td>
-                                                <div class="d-flex align-items-center">
-                                                    <div class="m-r-10"></div>
-                                                    <div class="">
-                                                        <h4 class="m-b-0 font-16">create and plane of the path</h4>
-                                                    </div>
-                                                </div>
-                                            </td>
-                                            <td>none</td>
-                                            <td>
-                                                <label>10</label>
-                                            </td>
-                                            <td><label>0</label></td>
-                                            <td><label>Km</label></td>
-                                            
-                                        </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
+
+                                <!-- ======EDIT TASK FORM============== -->
+
+                                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="exampleModalLabel1">Edit Project Task</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="/editProjectTask">
+                                                    
+                                                    <input type="text" class="form-control" name='Task Id' id="Task Id" hidden="hidden">
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Task Name</label>
+                                                        <input type="text" class="form-control" name='Task Name' id="Task Name" disabled="disabled">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Task Description</label>
+                                                        <input type="text" name="Task Description" class="form-control" id="Task Description">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Count</label>
+                                                        <input type="number" name="Count" class="form-control" id="Count" min="0" step="1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Done Count</label>
+                                                        <input type="number" name="Done Count" class="form-control" id="Done Count" min="0" step="1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Unit</label>
+                                                        <input type="text" name="unit" class="form-control" id="unit">
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input value="Edit Task" type="submit" class="btn btn-primary"></input>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                    <!-- ====== !EDIT TASK FORM============== -->
+
                             </div>
                         </div>
                     </div>
@@ -413,24 +440,65 @@
                                         </tr>
                                     </thead>
                                     <tbody id="table-body-id2">
-                                    <tr>
+                                        {{#each brr}}
+                                       <tr>
                                             <td>
                                                 <div class="d-flex align-items-center">
                                                     <div class="m-r-10"></div>
                                                     <div class="">
-                                                        <h4 class="m-b-0 font-16">concrete pelts</h4>
+                                                        <h4 class="m-b-0 font-16"><materialName materialName='{{this.materialName}}'>{{this.materialName}}</materialName></h4>
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td>200</td>
-                                            <td>
-                                                <label>0</label>
-                                            </td>
-                                            <td><label>kg</label></td>
-                                            
+                                            <td> <boqquantity boqquantity='{{this.boqquantity}}'>{{this.boqquantity}}</boqquantity></td>
+                                            <td><procuredQuantity procuredQuantity='{{this.procuredQuantity}}'> {{this.procuredQuantity}}</procuredQuantity></td>
+                                            <td><unit unit='{{this.unit}}'>{{this.unit}}</unit></td>
                                         </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
+
+
+                                <!-- ======EDIT BOQ FORM============== -->
+                                 <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="exampleModalLabel1">Edit Project BOQ</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="/editProjectMaterial">
+                                                    
+                                                    <input type="text" class="form-control" name='Task Id' id="Task Id" hidden="hidden">
+                                                    
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Material Name</label>
+                                                        <input type="text" class="form-control" name='materialName' id="materialName" disabled="disabled">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">boqquantity</label>
+                                                        <input type="number" name="boqquantity" class="form-control" id="boqquantity" min="0" step="1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">procuredQuantity</label>
+                                                        <input type="number" name="procuredQuantity" class="form-control" id="procuredQuantity" min="0" step="1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Unit</label>
+                                                        <input type="text" name="unit2" class="form-control" id="unit2">
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input value="Edit BOQ" type="submit" class="btn btn-primary"></input>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- ====== !EDIT BOQ FORM============== -->
+
                             </div>
                         </div>
                     </div>
@@ -470,6 +538,16 @@
             background-color: #dee2e6;
             cursor: pointer;
        }
+
+       #table-body-id1 tr:hover{
+            background-color: #dee2e6;
+            cursor: pointer;
+       }
+
+       #table-body-id2 tr:hover{
+            background-color: #dee2e6;
+            cursor: pointer;
+       }
     </style>
 
     <script src="/ui/assets/libs/jquery/dist/jquery.min.js"></script>
@@ -481,6 +559,24 @@
             if(site && project) {
                 window.location = "/dashboard/viewsite?project="+project+"&site="+site;
             }
+        });
+
+        $('#table-body-id1 tr').click(function() {
+            document.getElementById('Task Id').value = $(this).find("span").attr("task");
+            document.getElementById('Task Name').value = $(this).find("taskName").attr("taskName");
+            document.getElementById('Count').value = $(this).find("taskCount").attr("taskCount");
+            document.getElementById('Task Description').value = $(this).find("taskDescription").attr("taskDescription");
+            document.getElementById('Done Count').value = $(this).find("taskCountDone").attr("taskCountDone");
+            document.getElementById('unit').value = $(this).find("unit").attr("unit");
+            $('#exampleModal').modal({show:true})
+        });
+
+        $('#table-body-id2 tr').click(function() {
+            document.getElementById('materialName').value = $(this).find("materialName").attr("materialName");
+            document.getElementById('boqquantity').value = $(this).find("boqquantity").attr("boqquantity");
+            document.getElementById('procuredQuantity').value = $(this).find("procuredQuantity").attr("procuredQuantity");
+            document.getElementById('unit2').value = $(this).find("unit").attr("unit");
+            $('#exampleModal1').modal({show:true})
         });
     });
 

@@ -357,6 +357,8 @@ app.post('/append',(req,res)=>{
     res.redirect('/dashboard/viewproject?project='+projectId)
 })
 app.get("/dashboard/viewproject",(req,res)=>{
+	var brr=[];
+    var crr=[];
     if(str_tr===req.cookies.flag)
     {
         firebase.database().ref(req.cookies.hash+'/Project').once('value',(snapshot,err)=>{
@@ -406,67 +408,63 @@ app.get("/dashboard/viewproject",(req,res)=>{
                             }
                             arr.push(jsn)
                         }
-                        var brr=[];
-                        var crr=[];
+                        
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
-                firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
+
+                	firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         brr.push(mat[key]);
                     }
-                    json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
-                        if (err) console.log(err);
-                        fs.writeFile('./public_static/spread.csv', csv, function(err) {
-                          if (err) throw err;
-                          console.log('cars file saved');
-                        });
-                      });
-                })
-                firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
+                    console.log("mat: "+mat);
+
+                    firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         crr.push(mat[key]);
                     }
-                    json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
-                        if (err) console.log(err);
-                        fs.writeFile('./public_static/spread_1.csv', csv, function(err) {
-                          if (err) throw err;
-                          console.log('cars file saved');
-                        });
-                      });
-                })
-                firebase.database().ref(req.cookies.hash+'/Site/'+id).once('value',(snapshot,err)=>{
-                    var sites=snapshot.val();
-                    countme=0;
-                    for(var site in sites){
-                        firebase.database().ref(req.cookies.hash+'/SiteMaterial/'+site).once('value',(snapshot,err)=>{
-                            if(snapshot.val()){ 
-                            json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
-                                if (err) console.log(err);
-                                fs.writeFile('./public_static/spread_2.csv', csv, function(err) {
-                                  if (err) throw err;
-                                  console.log('cars file saved');
-                                });
-                              });}
-                        })
-                        firebase.database().ref(req.cookies.hash+'/SiteTask/'+site).once('value',(snapshot,err)=>{
-                            if(snapshot.val()){
-                            json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
-                                if (err) console.log(err);
-                                fs.writeFile('./public_static/spread_3.csv', csv, function(err) {
-                                  if (err) throw err;
-                                  console.log('cars file saved');
-                                });
-                              });}
-                        })
-                    }
-                    console.log(countme);
-                })      
-                if(!(req.query.err))
+                  	console.log("taskarray: "+JSON.stringify(crr));
+
+                  	if(!(req.query.err))
+                	{console.log("crr: "+JSON.stringify(crr));
                         return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr});
-                else
-                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr});
+	                }else{
+	                	console.log("crr: "+JSON.stringify(crr));
+	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr});
+	                }
+                	})
+                   
+                })
+                
+                // firebase.database().ref(req.cookies.hash+'/Site/'+id).once('value',(snapshot,err)=>{
+                //     var sites=snapshot.val();
+                //     countme=0;
+                //     for(var site in sites){
+                //         firebase.database().ref(req.cookies.hash+'/SiteMaterial/'+site).once('value',(snapshot,err)=>{
+                //             if(snapshot.val()){ 
+                //             json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
+                //                 if (err) console.log(err);
+                //                 fs.writeFile('./public_static/spread_2.csv', csv, function(err) {
+                //                   if (err) throw err;
+                //                   console.log('cars file saved');
+                //                 });
+                //               });}
+                //         })
+                //         firebase.database().ref(req.cookies.hash+'/SiteTask/'+site).once('value',(snapshot,err)=>{
+                //             if(snapshot.val()){
+                //             json2csv.json2csvPromisified(snapshot.val(), function(err, csv) {
+                //                 if (err) console.log(err);
+                //                 fs.writeFile('./public_static/spread_3.csv', csv, function(err) {
+                //                   if (err) throw err;
+                //                   console.log('cars file saved');
+                //                 });
+                //               });}
+                //         })
+                //     }
+                //     console.log(countme);
+                // })
+
                     })
                 }
               }
@@ -476,6 +474,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
         res.redirect('/signout')
     }
 })
+
 app.post('/adduser',(req,res)=>{
     let name=req.body.name;
     let emailId=req.body.email;
