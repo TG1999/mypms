@@ -1014,5 +1014,31 @@ var phn="";
         return res.redirect('/login')
     }
 })
+app.get('/dashboard/viewsite',(req,res)=>{
+    proid=req.query.project;
+    siteid=req.query.site;
+    arr=[];//Material array
+    brr=[];//Task array
+    console.log(siteid);
+    console.log(req.cookies.hash);
+    firebase.database().ref(req.cookies.hash+'/SiteMaterial/'+siteid).once('value',(snapshot,err)=>{
+        sitemat=snapshot.val();
+        console.log(sitemat);
+        for(var key in sitemat){
+            console.log(sitemat[key])
+            arr.push(sitemat[key]);
+        }
+        console.log(arr);
+        firebase.database().ref(req.cookies.hash+'/SiteTask/'+siteid).once('value',(snapshot,err)=>{
+            sitetask=snapshot.val();
+            console.log(sitetask);
+            for(var key in sitetask){
+                brr.push(sitetask[key]);
+            }
+            console.log(brr,arr);
+            res.render('siteview',{material:arr,task:brr});
+        })
+    })
+})
 app.listen(process.env.PORT||3000,()=>{
     console.log('http://localhost:3000')})
