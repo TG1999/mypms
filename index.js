@@ -491,7 +491,8 @@ app.post('/adduser',(req,res)=>{
                 emailId:emailId,
                 name:name,
                 phoneNumber:phone,
-                userType:req.body.type
+                userType:req.body.type,
+                companyHash:req.cookies.hash
             }).then(()=>res.redirect('/dashboard'))
         }
     );
