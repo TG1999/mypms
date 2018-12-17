@@ -472,7 +472,7 @@
                                                 <form method="POST" action="/editProjectMaterial">
                                                     
                                                     <input type="text" class="form-control" name='proid' id="proid" value="{{data.proid}}" hidden="hidden">
-                                                                                                      
+                                                     <input type="text" class="form-control" name='materialName1' id="materialName1" hidden="hidden">                                              
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Material Name</label>
                                                         <input type="text" class="form-control" name='materialName' id="materialName" disabled="disabled">
@@ -574,6 +574,7 @@
 
         $('#table-body-id2 tr').click(function() {
             document.getElementById('materialName').value = $(this).find("materialName").attr("materialName");
+            document.getElementById('materialName1').value = $(this).find("materialName").attr("materialName");
             document.getElementById('boqquantity').value = $(this).find("boqquantity").attr("boqquantity");
             document.getElementById('procuredQuantity').value = $(this).find("procuredQuantity").attr("procuredQuantity");
             document.getElementById('unit2').value = $(this).find("unit").attr("unit");
