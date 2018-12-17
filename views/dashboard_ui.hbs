@@ -179,7 +179,7 @@
                     </div>
                     <div class="col-7">
                         <div class="text-right upgrade-btn">
-                            <a href="#" class="btn btn-danger text-white">Add users</a>
+                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#exampleModal1" data-whatever="@getbootstrap">Add users</button>
                         </div>
                     </div>
                 </div>
@@ -241,6 +241,40 @@
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Recipient:</label>
                                                         <input type="date" name="end" class="form-control" id="recipient-name1">
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input value="Submit" type="submit" class="btn btn-primary"></input>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="exampleModalLabel1">New message</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="/adduser">
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Name:</label>
+                                                        <input type="text" class="form-control" name='name' id="recipient-name1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Email:</label>
+                                                        <input type="email" name="email" class="form-control" id="recipient-name1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Password:</label>
+                                                        <input type="password" name="password" class="form-control" id="recipient-name1">
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Phone Number:</label>
+                                                        <input type="tel" name="Phone" class="form-control" id="recipient-name1">
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
