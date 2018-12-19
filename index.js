@@ -58,6 +58,7 @@ app.get('/hello',(req,res)=>{
                 res.cookie('flag',str_tr)
                 res.cookie('companyName',each.companyName)
                 res.cookie('userName',each.name)
+                res.cookie('emailid',each.emailId)
                 console.log(hash)
                 return res.redirect('/dashboard')
             }
@@ -985,7 +986,7 @@ app.post('/dashboard/viewproject/site',(req,res)=>{
 })
 
 app.get('/profile',(req,res)=>{
-    if(Fire.auth().currentUser){
+    if(str_tr===req.cookies.flag){
         var name="";
 		var emp="";
 		var phn="";
@@ -997,10 +998,11 @@ app.get('/profile',(req,res)=>{
         var user=snapshot.val();
         for (var key in user) {
             var each=user[key]
-            if(each.emailId===(Fire.auth().currentUser.providerData[0].email)){
+            if(each.emailId===(req.cookies.emailid)){
                 name=each.name;
                 emp=each.userType;
                 phn=each.phoneNumber;
+                console.log(name,emp,phn,each.emailId)
             }
           }
           res.render('profile',{email:Fire.auth().currentUser.providerData[0].email,
