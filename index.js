@@ -247,7 +247,7 @@ app.post('/append',(req,res)=>{
     let countoftask=req.body.n_task;
     let countofsites=req.body.n_site;
     let projectId=req.body.project;
-    console.log(req.body);
+    console.log(JSON.stringify(req.body));
     flag=false;
     if(countofsites==1){
         site={
@@ -347,7 +347,7 @@ app.post('/append',(req,res)=>{
             unit:req.body.type_task[i],
             taskCountAssigned:0
         }
-        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(req.body.name_task[i]).set(task))){
+        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(req.body.name_task[i]).set(task))){
             flag=true
         }
     }}
@@ -947,12 +947,14 @@ app.post('/finaladd1',(req,res)=>{
         res.render('task_site1',{sites:sites})
     })
 })
+
 app.get('/dashboard/adduser',(req,res)=>{
     if(Fire.auth().currentUser)
     res.render("user.hbs");
     else
     res.redirect('/login');
 })
+
 app.post('/dashboard/viewproject/site',(req,res)=>{
     var id=req.body.site;
     console.log(id);
@@ -980,11 +982,12 @@ app.post('/dashboard/viewproject/site',(req,res)=>{
         return res.render('siteview',{site:site});
     })
 })
+
 app.get('/profile',(req,res)=>{
     if(Fire.auth().currentUser){
         var name="";
-var emp="";
-var phn="";
+		var emp="";
+		var phn="";
     firebase.database().ref('/User').once('value',(snapshot,err)=>{
         var flag=false
         if(err){
@@ -1036,7 +1039,7 @@ app.get('/dashboard/viewsite',(req,res)=>{
                 brr.push(sitetask[key]);
             }
             console.log(brr,arr);
-            res.render('siteview',{material:arr,task:brr});
+            res.render('site_landing.hbs',{material:arr,task:brr});
         })
     })
 })

@@ -140,11 +140,11 @@
                        <!--  <li class="p-15 m-t-10"><a href="javascript:void(0)" class="btn btn-block create-btn text-white no-block d-flex align-items-center"><i class="fa fa-plus-square"></i> <span class="hide-menu m-l-5">Create New</span> </a></li> -->
                         <!-- User Profile-->
                         <li class="p-15 m-t-10"> <a class="btn btn-block create-btn text-white no-block d-flex align-items-center" href="index.html" aria-expanded="false"><i class="mdi mdi-view-dashboard"></i><span class="hide-menu">Dashboard</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="pages-profile.html" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span class="hide-menu">Table</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="#" aria-expanded="false"><i class="mdi mdi-account-network"></i><span class="hide-menu">Profile</span></a></li>
+                       <!--  <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="table-basic.html" aria-expanded="false"><i class="mdi mdi-border-all"></i><span class="hide-menu">Table</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="icon-material.html" aria-expanded="false"><i class="mdi mdi-face"></i><span class="hide-menu">Icon</span></a></li>
                         <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="starter-kit.html" aria-expanded="false"><i class="mdi mdi-file"></i><span class="hide-menu">Blank</span></a></li>
-                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html" aria-expanded="false"><i class="mdi mdi-alert-outline"></i><span class="hide-menu">404</span></a></li>
+                        <li class="sidebar-item"> <a class="sidebar-link waves-effect waves-dark sidebar-link" href="error-404.html" aria-expanded="false"><i class="mdi mdi-alert-outline"></i><span class="hide-menu">404</span></a></li> -->
                         <li class="text-center p-40 upgrade-btn">
                             <a href="/signout" class="btn btn-block btn-danger text-white">Logout</a>
                         </li>
@@ -228,7 +228,6 @@
                                             <td>
                                                 <h4 class="m-b-0 font-16"><input type="text" id="name_site" name="name_site" class="form-control" placeholder="Site Location"/><input type="text" id="project" name="project" class="form-control" value="{{projectdetails.0.projectId}}" hidden /></h4>
                                             </td>
-                                            {{!-- <td><input type="text" id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name" /></td> --}}
                                             <td><select id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name">
                                                   {{#each name}}
                                                   <option value="{{this.id}}">{{this.id}}</option>
@@ -363,6 +362,9 @@
 
     <script src="/ui/assets/libs/jquery/dist/jquery.min.js"></script>
     <script type="text/javascript">
+        var siteleader=`{{#each name}}
+                                                  <option value="{{this.id}}">{{this.id}}</option>
+                                                  {{/each}}`;
         var sitelimit = 1;
         var tasklimit=1;
         var boqlimit=1;
@@ -372,7 +374,7 @@
 
         function addsiterow(){
             if(sitelimit < 10){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" id="site" name="n_site" class="form-control" placeholder="Site" required/></h4></td><td></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Start Date" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="End Date" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_site" class="form-control" placeholder="Site Location" required/></h4></td><td><select name="leader_site" class="form-control" placeholder="Leader Name">'+siteleader+'</select></td><td><input type="text" name="start_site" class="form-control" placeholder="Start Date" required/></td><td><input type="text" name="end_site" class="form-control" placeholder="End Date" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
             $('#tbody-site').append(html);
             sitelimit++;
             document.getElementById('n_site').value=sitelimit;
@@ -381,7 +383,7 @@
         }
          function addtaskrow(){
             if(tasklimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" id="site" name="n_site" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Description" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Quanitity" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_task" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" name="description_task" class="form-control" placeholder="Description" required/></td><td><input type="text" name="qty_task" class="form-control" placeholder="Quanitity" required/></td><td><input type="text" name="type_task" class="form-control" placeholder="Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-task').append(html);
             tasklimit++;
             document.getElementById('n_task').value=tasklimit;
@@ -390,7 +392,7 @@
         }
          function addboqrow(){
             if(boqlimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" id="site" name="n_site" class="form-control" placeholder="Material" required/></h4></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Quantity" required/></td><td><input type="text" id="site" name="n_site" class="form-control" placeholder="Select Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_boq" class="form-control" placeholder="Material" required/></h4></td><td><input type="text" name="qty_boq" class="form-control" placeholder="Quantity" required/></td><td><input type="text"  name="type_boq" class="form-control" placeholder="Select Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-boq').append(html);
             boqlimit++;
             document.getElementById('n_boq').value=boqlimit;
