@@ -1005,7 +1005,7 @@ app.get('/profile',(req,res)=>{
                 console.log(name,emp,phn,each.emailId)
             }
           }
-          res.render('profile',{email:Fire.auth().currentUser.providerData[0].email,
+          res.render('profile',{email:req.cookies.emailid,
         name,emp,phn})
     // res.send(`<h1>
     // Email:${}<br>
