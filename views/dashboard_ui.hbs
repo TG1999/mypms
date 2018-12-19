@@ -90,7 +90,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle text-muted waves-effect waves-dark pro-pic" href="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="/ui/assets/images/users/1.jpg" alt="user" class="rounded-circle" width="31"></a>
                             <div class="dropdown-menu dropdown-menu-right user-dd animated">
-                                <a class="dropdown-item" href="/signout)"><i class="ti-user m-r-5 m-l-5"></i> Logout</a>
+                                <a class="dropdown-item" href="/signout"><i class="ti-user m-r-5 m-l-5"></i> Logout</a>
                                 <!-- <a class="dropdown-item" href="javascript:void(0)"><i class="ti-wallet m-r-5 m-l-5"></i> My Balance</a>
                                 <a class="dropdown-item" href="javascript:void(0)"><i class="ti-email m-r-5 m-l-5"></i> Inbox</a> -->
                             </div>
@@ -255,27 +255,36 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLabel1">New message</h4>
+                                                <h4 class="modal-title" id="exampleModalLabel1">Add User</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
                                                 <form method="POST" action="/adduser">
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Name:</label>
-                                                        <input type="text" class="form-control" name='name' id="recipient-name1">
+                                                        <input type="text" class="form-control" name='name'>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Email:</label>
-                                                        <input type="email" name="email" class="form-control" id="recipient-name1">
+                                                        <input type="email" name="email" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Password:</label>
-                                                        <input type="password" name="password" class="form-control" id="recipient-name1">
+                                                        <input type="password" name="password" class="form-control">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Phone Number:</label>
-                                                        <input type="tel" name="Phone" class="form-control" id="recipient-name1">
+                                                        <input type="tel" name="Phone" class="form-control">
                                                     </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">User type</label>
+                                                        <select name="type" class="form-control">
+                                                            <option value="SiteLeader">Site Leader</option>
+                                                            <option value="StoreManager">Store Manager</option>
+                                                            <option value="Admin">Admin</option>
+                                                        </select>
+                                                    </div>
+
                                             </div>
                                             <div class="modal-footer">
                                                 <input value="Submit" type="submit" class="btn btn-primary"></input>
