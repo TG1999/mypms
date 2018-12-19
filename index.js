@@ -11,17 +11,17 @@ app.use(cookieparser());
 const md5=require('md5');
 const str_tr=md5('true');
 var config = {
-    apiKey: "AIzaSyA17DwZnKRzasWV1LlX_I7MjphTizI7IX8",
-    authDomain: "minor-5740d.firebaseapp.com",
-    databaseURL: "https://minor-5740d.firebaseio.com",
-    projectId: "minor-5740d",
-    storageBucket: "minor-5740d.appspot.com",
-    messagingSenderId: "785879673787"
+    apiKey: "AIzaSyBp_gl1Kl88O1Y5HdQ9fS-UA8aJ3kUwQP4",
+    authDomain: "mypms-a02f5.firebaseapp.com",
+    databaseURL: "https://mypms-a02f5.firebaseio.com",
+    projectId: "mypms-a02f5",
+    storageBucket: "mypms-a02f5.appspot.com",
+    messagingSenderId: "993235972952"
   };
   Fire.initializeApp(config);
   firebase.initializeApp({
-    databaseURL:"https://minor-5740d.firebaseio.com",
-    credential:firebase.credential.cert('cred.json')
+    databaseURL:"https://mypms-a02f5.firebaseio.com",
+    credential:firebase.credential.cert('mypms-cred.json')
 })
 
 
