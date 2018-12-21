@@ -226,16 +226,16 @@
                                     <tbody id="tbody-site">
                                         <tr>
                                             <td>
-                                                <h4 class="m-b-0 font-16"><input type="text" id="name_site" name="name_site" class="form-control" placeholder="Site Location"/><input type="text" id="project" name="project" class="form-control" value="{{projectdetails.0.projectId}}" hidden /></h4>
+                                                <h4 class="m-b-0 font-16"><input type="text" id="name_site" name="name_site" class="form-control" placeholder="Site Location" /><input type="text" id="project" name="project" class="form-control" value="{{projectdetails.0.projectId}}" hidden /></h4>
                                             </td>
                                             <td><select id="leader_site" name="leader_site" class="form-control" placeholder="Leader Name">
                                                   {{#each name}}
                                                   <option value="{{this.id}}">{{this.id}}</option>
                                                   {{/each}}
                                                 </select></td>
-                                            <td><input type="text" id="start_site" name="start_site" class="form-control" placeholder="Start Date" /></td>
-                                            <td><input type="text" id="end_site" name="end_site" class="form-control" placeholder="End Date"/>
-                                                <input type="text" id="n_site" name="n_site" class="form-control" placeholder="End Date" hidden /></td>
+                                            <td><input type="text" id="start_site" name="start_site" class="form-control" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" placeholder="DD/MM/YYYY"/></td>
+                                            <td><input type="text" id="end_site" name="end_site" class="form-control" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" placeholder="DD/MM/YYYY"/>
+                                                <input type="text" id="n_site" name="n_site" class="form-control" hidden /></td>
                                         </tr>
 
                                     </tbody>
@@ -285,8 +285,19 @@
                                             </td>
                                             <td><input type="text" id="description_task" name="description_task" class="form-control" placeholder="Description"/></td>
                                             <td><input type="text" id="qty_task" name="qty_task" class="form-control" placeholder="Quanitity"/></td>
-                                            <td><input type="text" id="type_task" name="type_task" class="form-control" placeholder="Unit"/>
-                                                <input type="text" id="n_task" name="n_task" class="form-control" placeholder="End Date" hidden/></td>
+                                        <td><select type="text" id="type_task" name="type_task" class="form-control" placeholder="Unit">
+                                                            <option value="Sq Mtr">Sq Mtr</option>
+                                                            <option value="Cu Mtr">Cu Mtr</option>
+                                                            <option value="Slope">Slope</option>
+                                                            <option value="ltr">Ltr</option>
+                                                            <option value="Sq Ft">Sq Ft</option>
+                                                            <option value="Barrels">Barrels</option>
+                                                            <option value="Feet">Feet</option>
+                                                            <option value="Pound">Pound</option>
+                                                            <option value="Ounce">Ounce</option>
+                                                            <option value="Miles">Miles</option>
+                                            </select>    
+                                                <input type="text" id="n_task" name="n_task" class="form-control" hidden/></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -327,17 +338,27 @@
                                             <th class="border-top-0">Remove Row</th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody-boq">
-                                        <tr>
-                                            <td>
-                                                <h4 class="m-b-0 font-16"><input type="text" id="name_boq" name="name_boq" class="form-control" placeholder="Material" /></h4>
-                                            </td>
-                                            <td><input type="text" id="qty_boq" name="qty_boq" class="form-control" placeholder="Quantity" /></td>
-                                            <td><input type="text" id="type_boq" name="type_boq" class="form-control" placeholder="Select Unit" />
-                                                <input type="text" id="n_boq" name="n_boq" class="form-control" placeholder="End Date" hidden/></td>
-                                        </tr>
-
-                                    </tbody>
+                            <tbody id="tbody-boq">
+                                <tr>
+                                    <td>
+                                        <h4 class="m-b-0 font-16"><input type="text" id="name_boq" name="name_boq" class="form-control" placeholder="Material"/></h4>
+                                    </td>
+                                    <td><input type="number" id="qty_boq" name="qty_boq" class="form-control" placeholder="Quantity" min="0" step="1"/></td>
+                                    <td><select type="text" id="type_boq" name="type_boq" class="form-control" placeholder="Select Unit">
+                                                            <option value="Sq Mtr">Sq Mtr</option>
+                                                            <option value="Cu Mtr">Cu Mtr</option>
+                                                            <option value="Slope">Slope</option>
+                                                            <option value="ltr">Ltr</option>
+                                                            <option value="Sq Ft">Sq Ft</option>
+                                                            <option value="Barrels">Barrels</option>
+                                                            <option value="Feet">Feet</option>
+                                                            <option value="Pound">Pound</option>
+                                                            <option value="Ounce">Ounce</option>
+                                                            <option value="Miles">Miles</option>
+                                        </select>
+                                        <input type="text" id="n_boq" name="n_boq" class="form-control" hidden/></td>
+                                </tr>
+                            </tbody>
                                 </table>
                             </div>
                         </div>
@@ -345,7 +366,7 @@
                 </div>
             <div class="row">
                 <div style="margin: 40px auto">
-                    <button class="btn btn-danger btn-block" type="submit" >Update Project</button>
+                    <button class="btn btn-danger btn-block" type="submit">Update Project</button>
                     </form>
              </div>
             </div>
@@ -374,7 +395,7 @@
 
         function addsiterow(){
             if(sitelimit < 10){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_site" class="form-control" placeholder="Site Location" required/></h4></td><td><select name="leader_site" class="form-control" placeholder="Leader Name">'+siteleader+'</select></td><td><input type="text" name="start_site" class="form-control" placeholder="Start Date" required/></td><td><input type="text" name="end_site" class="form-control" placeholder="End Date" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_site" class="form-control" placeholder="Site Location" required/></h4></td><td><select name="leader_site" class="form-control" placeholder="Leader Name" required="required">'+siteleader+'</select></td><td><input type="text" name="start_site" class="form-control" placeholder="DD/MM/YY" minlength="10" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" required/></td><td><input type="text" name="end_site" class="form-control" placeholder="DD/MM/YYYY" minlength="10" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" required/></td><td><button class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></button></td></tr>';
             $('#tbody-site').append(html);
             sitelimit++;
             document.getElementById('n_site').value=sitelimit;
@@ -383,7 +404,7 @@
         }
          function addtaskrow(){
             if(tasklimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_task" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" name="description_task" class="form-control" placeholder="Description" required/></td><td><input type="text" name="qty_task" class="form-control" placeholder="Quanitity" required/></td><td><input type="text" name="type_task" class="form-control" placeholder="Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_task" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" name="description_task" class="form-control" placeholder="Description" required/></td><td><input type="text" name="qty_task" class="form-control" placeholder="Quanitity" required/></td><td><select type="text" name="type_task" class="form-control" placeholder="Unit" required="required"><option value="Sq Mtr">Sq Mtr</option><option value="Cu Mtr">Cu Mtr</option><option value="Slope">Slope</option><option value="ltr">Ltr</option><option value="Sq Ft">Sq Ft</option><option value="Barrels">Barrels</option><option value="Feet">Feet</option><option value="Pound">Pound</option><option value="Ounce">Ounce</option><option value="Miles">Miles</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-task').append(html);
             tasklimit++;
             document.getElementById('n_task').value=tasklimit;
@@ -392,7 +413,7 @@
         }
          function addboqrow(){
             if(boqlimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_boq" class="form-control" placeholder="Material" required/></h4></td><td><input type="text" name="qty_boq" class="form-control" placeholder="Quantity" required/></td><td><input type="text"  name="type_boq" class="form-control" placeholder="Select Unit" required/></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_boq" class="form-control" placeholder="Material" required/></h4></td><td><input type="number" name="qty_boq" class="form-control" placeholder="Quantity"  min="0" step="1" required/></td><td><select type="text"  name="type_boq" class="form-control" placeholder="Select Unit" required="required"><option value="Sq Mtr">Sq Mtr</option><option value="Cu Mtr">Cu Mtr</option><option value="Slope">Slope</option><option value="ltr">Ltr</option><option value="Sq Ft">Sq Ft</option><option value="Barrels">Barrels</option><option value="Feet">Feet</option><option value="Pound">Pound</option><option value="Ounce">Ounce</option><option value="Miles">Miles</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-boq').append(html);
             boqlimit++;
             document.getElementById('n_boq').value=boqlimit;

@@ -217,30 +217,30 @@
                                     <div class="modal-dialog" role="document">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="exampleModalLabel1">New message</h4>
+                                                <h4 class="modal-title" id="exampleModalLabel1">Add New Project</h4>
                                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                             </div>
                                             <div class="modal-body">
                                                 <form method="POST" action="/addproject">
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Project Name:</label>
-                                                        <input type="text" class="form-control" name='pname' id="recipient-name1">
+                                                        <input type="text" class="form-control" name='pname' id="recipient-name1" required/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Location:</label>
-                                                        <input type="text" name="location" class="form-control" id="recipient-name1">
+                                                        <input type="text" name="location" class="form-control" id="recipient-name1" required/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Manager:</label>
-                                                        <input type="text" name="manager" class="form-control" id="recipient-name1">
+                                                        <input type="text" name="manager" class="form-control" id="recipient-name1" required/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Start Date:</label>
-                                                        <input type="date" name="start" class="form-control" id="recipient-name1">
+                                                        <input type="text" name="start" class="form-control" id="recipient-name1" minlength="10" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" placeholder="DD/MM/YYYY" required/>
                                                     </div>
                                                     <div class="form-group">
-                                                        <label for="recipient-name" class="control-label">Recipient:</label>
-                                                        <input type="date" name="end" class="form-control" id="recipient-name1">
+                                                        <label for="recipient-name" class="control-label">End Date:</label>
+                                                        <input type="text" name="end" class="form-control" id="recipient-name1" minlength="10" pattern="(0[1-9]|1[0-9]|2[0-9]|3[01])/(0[1-9]|1[012])/[0-9]{4}" placeholder="DD/MM/YYYY" required/>
                                                     </div>
                                             </div>
                                             <div class="modal-footer">
@@ -262,7 +262,7 @@
                                                 <form method="POST" action="/adduser">
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Name:</label>
-                                                        <input type="text" class="form-control" name='name'>
+                                                        <input type="text" class="form-control" name='name' minlength="2" pattern="[A-Za-z-']+\s[A-Za-z-']+" placeholder="Full name" required="required">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Email:</label>
@@ -274,7 +274,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Phone Number:</label>
-                                                        <input type="tel" name="Phone" class="form-control">
+                                                        <input type="tel" name="Phone" class="form-control" minlength="10" maxlength="10" pattern="[789]{1}[0-9]{9}" required="required">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">User type</label>

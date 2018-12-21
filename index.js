@@ -788,7 +788,7 @@ app.post('/editProjectTask',(req,res)=>{
         console.log(task.taskName);
         task.taskDescription=req.body.taskdescription;
         task.taskCount=req.body.count;
-        task.taskCountDone=req.body.donecount;
+        // task.taskCountDone=req.body.donecount;
         task.unit=req.body.unit;
         firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
         
@@ -803,7 +803,7 @@ app.post('/editProjectMaterial',(req,res)=>{
     firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).once('value',(snapshot,err)=>{
         boq=snapshot.val();
         boq.boqquantity=req.body.boqquantity;
-        boq.procuredQuantity=req.body.procuredQuantity;
+        // boq.procuredQuantity=req.body.procuredQuantity;
         boq.unit=req.body.unit2;
         firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).set(boq);
     })
