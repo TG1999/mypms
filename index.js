@@ -5,7 +5,6 @@ const firebase=require('firebase-admin');
 const Fire=require('firebase');
 const json2csv = require('json-2-csv');
 const fs=require('fs')
-var hbs = require('express-handlebars');
 const cookieparser=require('cookie-parser');
 app.use(cookieparser());
 const md5=require('md5');
@@ -164,7 +163,7 @@ app.get('/dashboard/updateProject',(req,res)=>{
         var arr=[];
         for(var key in user){
             var each=user[key];
-            if(!each.projectId&&each.userType==='SiteLeader'){
+            if(each.userType==='SiteLeader'&&!(each.siteId)){
                 jsn={
                     id:each.emailId,
                     key:key
@@ -261,7 +260,17 @@ app.post('/append',(req,res)=>{
             startDate:req.body.start_site
         }
         if (!(req.body.name_site==="")&&(req.body.end_site)&&(req.body.name_site)&&(req.body.leader_site)&&(req.body.start_site)){
-            console.log('sites');
+            {console.log('sites');
+        firebase.database().ref('/User').on('value',(snapshot,err)=>{
+            var usr=snapshot.val();
+            for(var us in usr){
+                if(usr[us].emailId===site.siteLeader){
+                    usr[us].siteId=req.body.name_site;
+                    console.log(usr[us]);
+                    firebase.database().ref('/User').child(us).set(usr[us]);
+                }
+            }
+        })}
        if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(req.body.name_site).set(site))){
             flag=true
        } 
@@ -739,30 +748,7 @@ app.post('/dashboard/details/task',(req,res)=>{
         res.render('task_form',{details:task})
     })
 })
-boqid="";
-boq={};
-app.post('/dashboard/details/material',(req,res)=>{
-    let id=req.body.project;
-    boqid=id;
-    console.log(id);
-    firebase.database().ref(hash+'/ProjectMaterials/'+reditid+'/'+id).once('value',(snapshot,err)=>{
-        boq=snapshot.val();
-        console.log(boq);
-        res.render('boq_form',{details:boq});
-    })
-})
-siteidnew="";
-site={};
-app.post('/dashboard/details/site',(req,res)=>{
-    let id=req.body.project;
-    siteidnew=id;
-    console.log(id);
-    firebase.database().ref(hash+'/Site/'+reditid+'/'+id).once('value',(snapshot,err)=>{
-        site=snapshot.val();
-        console.log(boq);
-        res.render('site_form',{details:site});
-    })
-})
+
 app.post('/editProject',(req,res)=>{
     reditid=req.body.proid;
     firebase.database().ref(req.cookies.hash+'/Project/'+reditid).once('value',(snapshot,err)=>{
