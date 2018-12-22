@@ -20,7 +20,7 @@ var config = {
   Fire.initializeApp(config);
   firebase.initializeApp({
     databaseURL:"https://mypms-a02f5.firebaseio.com",
-    credential:firebase.credential.cert('mypms-cred.json')
+    credential:firebase.credential.cert('mypms_cred.json')
 })
 
 
