@@ -222,7 +222,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form method="POST" action="/editSite">
-                                                    
+                                                    <input type="text" class="form-control" name='siteLeaderold' id="proid" value="{{sitedetails.siteLeader}}" hidden="hidden">
                                                     <input type="text" class="form-control" name='proid' id="proid" value="{{proid}}" hidden="hidden">
                                                     <input type="text" class="form-control" name='siteid' id="siteid" value="{{sitedetails.siteId}}" hidden="hidden">
                                                     <div class="form-group">
@@ -231,7 +231,7 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Leader</label>
-                                                        <input type="text" name="siteLeader" class="form-control" id="siteLeader" value="{{sitedetails.siteLeader}}" disabled="disabled" required/>
+                                                        <input type="text" name="siteLeader" class="form-control" id="siteLeader" value="{{sitedetails.siteLeader}}" required/>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Start Date</label>

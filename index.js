@@ -402,6 +402,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
                         totalwork=0;
                         totalmaterial=0;
                         count=0;
+                        timelinegraph=[];
                         for(var key in sites)
                         {
                             count++;
@@ -417,34 +418,61 @@ app.get("/dashboard/viewproject",(req,res)=>{
                                 endDate:each.endDate
                             }
                             arr.push(jsn)
+                            startDate=(each.startDate);
+                            datearray=startDate.split('/');
+                            startDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                            startDate=new Date(startDate);
+                            endDate=(each.endDate);
+                            datearray=endDate.split('/');
+                            endDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                            endDate=new Date(endDate);
+                            timelinegraph.push({
+                                y:each.location,
+                                a:(endDate-startDate)/86400000,
+                                c:(Date.now()-startDate)/86400000
+                            })
                         }
                         
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
-
+                        materialgraph=[];
+                        taskgraph=[];
                 	firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         brr.push(mat[key]);
+                        materialgraph.push({
+                            y:mat[key].materialName,
+                            a:mat[key].boqquantity,
+                            c:mat[key].procuredQuantity
+                        })
+
                     }
                     console.log("mat: "+mat);
-
+                    console.log(materialgraph);
+    
                     firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         crr.push(mat[key]);
+                        taskgraph.push({
+                            y:mat[key].taskName,
+                            a:mat[key].taskCount,
+                            c:mat[key].taskCountDone
+                        })
                     }
+                    
                   	console.log("taskarray: "+JSON.stringify(crr));
                     firebase.database().ref(req.cookies.hash+'/Project/'+id).once('value',(snapshot,err)=>{
                      console.log('Project:'+snapshot.val());
                      var project=snapshot.val();
                      console.log(project);
                      if(!(req.query.err))
-                	{console.log("crr: "+JSON.stringify(crr));
-                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project});
+                	{console.log(timelinegraph,taskgraph,materialgraph);
+                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,materialgraph,timelinegraph});
 	                }else{
-	                	console.log("crr: "+JSON.stringify(crr));
-	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project});
+	                	console.log("crr: "+JSON.stringify(taskgraph));
+	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,materialgraph,timelinegraph});
 	                }   
                     })
                   	
@@ -1016,9 +1044,14 @@ app.get('/dashboard/viewsite',(req,res)=>{
     firebase.database().ref(req.cookies.hash+'/SiteMaterial/'+siteid).once('value',(snapshot,err)=>{
         sitemat=snapshot.val();
         console.log(sitemat);
+        materialgraph=[];
+        taskgraph=[];
         for(var key in sitemat){
             console.log(sitemat[key])
             arr.push(sitemat[key]);
+            materialgraph.push({
+                y:sitemat[key].materialName,a:sitemat[key].quantityIssued,c:sitemat[key].quantityConsumed
+            })
         }
         console.log(arr);
         firebase.database().ref(req.cookies.hash+'/SiteTask/'+siteid).once('value',(snapshot,err)=>{
@@ -1026,12 +1059,39 @@ app.get('/dashboard/viewsite',(req,res)=>{
             console.log(sitetask);
             for(var key in sitetask){
                 brr.push(sitetask[key]);
+                taskgraph.push({
+                    y:sitetask[key].taskName,a:sitetask[key].taskCount,c:sitetask[key].taskCountDone
+                })
             }
             console.log(brr,arr);
             firebase.database().ref(req.cookies.hash+'/Site/'+proid+'/'+siteid).once('value',(snapshot,err)=>{
                 sitedetails=snapshot.val();
                 console.log(sitedetails);
-                res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails});
+                
+                    firebase.database().ref('/User').once('value',(snapshot,err)=>{  
+                        if(err){
+                            console.log(err);
+                            return res.render('error-404.hbs');
+                        }
+                        if(!(snapshot.val())){
+                            return res.render('error-404.hbs');
+                        }    
+                    var user=snapshot.val();
+                    var arr=[];
+                    for(var key in user){
+                        var each=user[key];
+                        if(each.userType==='SiteLeader'&&(!(each.siteId)||(each.emailId===sitedetails.siteLeader))){
+                            jsn={
+                                id:each.emailId,
+                                key:key
+                            }
+                            arr.push(jsn);
+                        }
+                    }
+                    console.log(arr);
+                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr});    
+                })
+                
             })   
         })
     })
@@ -1045,7 +1105,31 @@ app.post('/editSite',(req,res)=>{
         site.endDate=req.body.endDate;
         site.location=req.body.location;
         site.startDate=req.body.startDate;
-        // site.siteLeader=req.body.siteLeader;
+        site.siteLeader=req.body.siteLeader;
+        firebase.database().ref('/User').once('value',(snapshot,err)=>{
+            user=snapshot.val();
+            var uid='';
+            for(var key in user)
+            {
+                eachuser=user[key];
+                if(eachuser.emailId===req.body.siteLeaderold)
+                {
+                    uid=key;
+                    delete eachuser.siteId
+                    firebase.database.ref('/User/'+uid).set(eachuser);
+                }
+            }
+            for(var key in user)
+            {
+                eachuser=user[key];
+                if(eachuser.emailId===req.body.siteLeader)
+                {
+                    uid=key;
+                    eachuser.siteId=req.body.siteid;
+                    firebase.database.ref('/User/'+uid).set(eachuser);
+                }
+            }
+        })
         firebase.database().ref(req.cookies.hash+'/Site/'+reditid+'/'+reditid1).set(site);
     })
     
