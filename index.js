@@ -1028,9 +1028,29 @@ app.get('/dashboard/viewsite',(req,res)=>{
                 brr.push(sitetask[key]);
             }
             console.log(brr,arr);
-            res.render('site_landing.hbs',{material:arr,task:brr});
+            firebase.database().ref(req.cookies.hash+'/Site/'+proid+'/'+siteid).once('value',(snapshot,err)=>{
+                sitedetails=snapshot.val();
+                console.log(sitedetails);
+                res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails});
+            })   
         })
     })
 })
+
+app.post('/editSite',(req,res)=>{
+    reditid=req.body.proid;
+    reditid1=req.body.siteid;
+    firebase.database().ref(req.cookies.hash+'/Site/'+reditid+'/'+reditid1).once('value',(snapshot,err)=>{
+        var site=snapshot.val();
+        site.endDate=req.body.endDate;
+        site.location=req.body.location;
+        site.startDate=req.body.startDate;
+        // site.siteLeader=req.body.siteLeader;
+        firebase.database().ref(req.cookies.hash+'/Site/'+reditid+'/'+reditid1).set(site);
+    })
+    
+    res.redirect('/dashboard/viewsite?project='+reditid+'&site='+reditid1);
+})
+
 app.listen(process.env.PORT||3000,()=>{
     console.log('http://localhost:3000')})
