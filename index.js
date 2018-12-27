@@ -395,14 +395,34 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     work:each.workStatus,
                     material:each.materialStatus
                     }
+                    work=json.work;
+                    material=json.material;
+                    startDate=json.start;
+                    datearray=startDate.split('/');
+                    startDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                    startDate=new Date(startDate);
+                    endDate=json.end;
+                    datearray=endDate.split('/');
+                    endDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                    endDate=new Date(endDate);
+                    json=[];
+                    json.push({
+                        y:'Timeline',a:(endDate-startDate)/86400000,c:(Date.now()-startDate)/86400000
+                    })
+                    json.push({
+                        y:'WorkStatus',a:(endDate-startDate)/86400000,c:(endDate-startDate)/86400000*work
+                    })
+                    json.push({
+                        y:'MaterialStatus',a:(endDate-startDate)/86400000,c:(endDate-startDate)/86400000*material
+                    })
                     id=each.projectId;
                     firebase.database().ref(req.cookies.hash+'/Site').once('value',(snapshot,err)=>{
-                        
+                        taskgraph=[];
+                        matgraph=[];
                         var sites=snapshot.val()[id];
                         totalwork=0;
                         totalmaterial=0;
                         count=0;
-                        timelinegraph=[];
                         for(var key in sites)
                         {
                             count++;
@@ -417,49 +437,33 @@ app.get("/dashboard/viewproject",(req,res)=>{
                                 startDate:each.startDate,
                                 endDate:each.endDate
                             }
-                            arr.push(jsn)
-                            startDate=(each.startDate);
-                            datearray=startDate.split('/');
-                            startDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
-                            startDate=new Date(startDate);
-                            endDate=(each.endDate);
-                            datearray=endDate.split('/');
-                            endDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
-                            endDate=new Date(endDate);
-                            timelinegraph.push({
+                            taskgraph.push({
                                 y:each.location,
-                                a:(endDate-startDate)/86400000,
-                                c:(Date.now()-startDate)/86400000
+                                a:10,
+                                c:each.siteWorkStatus*10
                             })
+                            matgraph.push({
+                                y:each.location,
+                                a:10,
+                                c:each.siteMaterialStatus*10
+                            })
+                            arr.push(jsn)
                         }
                         
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
-                        materialgraph=[];
-                        taskgraph=[];
                 	firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         brr.push(mat[key]);
-                        materialgraph.push({
-                            y:mat[key].materialName,
-                            a:mat[key].boqquantity,
-                            c:mat[key].procuredQuantity
-                        })
 
                     }
                     console.log("mat: "+mat);
-                    console.log(materialgraph);
     
                     firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
                     var mat=snapshot.val();
                     for(var key in mat){
                         crr.push(mat[key]);
-                        taskgraph.push({
-                            y:mat[key].taskName,
-                            a:mat[key].taskCount,
-                            c:mat[key].taskCountDone
-                        })
                     }
                     
                   	console.log("taskarray: "+JSON.stringify(crr));
@@ -467,14 +471,18 @@ app.get("/dashboard/viewproject",(req,res)=>{
                      console.log('Project:'+snapshot.val());
                      var project=snapshot.val();
                      console.log(project);
-                     if(!(req.query.err))
-                	{console.log(timelinegraph,taskgraph,materialgraph);
+                         if(!(req.query.err))
+                	{console.log(json,taskgraph,matgraph);
                         taskgraph=JSON.stringify(taskgraph);
-                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,materialgraph,timelinegraph});
+                        json=JSON.stringify(json);
+                        matgraph=JSON.stringify(matgraph);
+                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,matgraph});
 	                }else{
 	                	console.log("crr: "+JSON.stringify(taskgraph));
-	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,materialgraph,timelinegraph});
-	                }   
+	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,matgraph});
+	                }
+                     
+                        
                     })
                   	
                 	})
@@ -1068,7 +1076,31 @@ app.get('/dashboard/viewsite',(req,res)=>{
             firebase.database().ref(req.cookies.hash+'/Site/'+proid+'/'+siteid).once('value',(snapshot,err)=>{
                 sitedetails=snapshot.val();
                 console.log(sitedetails);
-                
+                var startDate=sitedetails.startDate;
+                var endDate=sitedetails.endDate;
+                datearray=startDate.split('/');
+                    startDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                    startDate=new Date(startDate);
+                    datearray=endDate.split('/');
+                    endDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
+                    endDate=new Date(endDate);
+                    sitearr=[];
+                    sitearr.push({
+                        y:'Timeline',
+                        a:(endDate-startDate)/86400000,
+                        c:(Date.now()-startDate)/86400000
+                    },
+                {
+                    y:'Material Status',
+                    a:10,
+                    c:sitedetails.siteMaterialStatus*10
+                },
+            {
+                y:'Work Status',
+                a:10,
+                c:sitedetails.siteWorkStatus*10
+            })
+            sitearr=JSON.stringify(sitearr);
                     firebase.database().ref('/User').once('value',(snapshot,err)=>{  
                         if(err){
                             console.log(err);
@@ -1090,7 +1122,7 @@ app.get('/dashboard/viewsite',(req,res)=>{
                         }
                     }
                     console.log(arr1);
-                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1});    
+                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1,sitearr});    
                 })
                 
             })   

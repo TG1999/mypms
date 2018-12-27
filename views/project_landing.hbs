@@ -601,6 +601,8 @@
                                 <h4 class="card-title">Task Summary</h4>
                                 <div id="morris-bar-chart1"></div>
                                 <div style="display:none" id="task_summary">{{taskgraph}}</div>
+                                <div style="display:none" id="mat_summary">{{matgraph}}</div>
+                                <div style="display:none" id="timeline">{{data}}</div>
 
                             </div>
                             <div class="card-body">
@@ -718,16 +720,18 @@
 <script src="https://www.wrappixel.com/demos/admin-templates/adminx//assets/libs/raphael/raphael.min.js"></script>
 
 <script type="text/javascript">
-    var task_summary = document.getElementById('task_summary').innerHTML;
+    var task_summary = document.getElementById('task_summary').innerHTML;   
+    var mat_summary = document.getElementById('mat_summary').innerHTML;
     task_summary= JSON.parse(task_summary);
-
-
+    var timeline=document.getElementById('timeline').innerHTML;
+    data=JSON.parse(timeline);
+    mat=JSON.parse(mat_summary);
     $(function () {
     "use strict";
 
     Morris.Bar({
         element: 'morris-bar-chart',
-        data: [],
+        data:data,
         xkey: 'y',
         ykeys: ['a', 'c'],
         labels: ['A', 'C'],
@@ -749,35 +753,7 @@
     });
     Morris.Bar({
         element: 'morris-bar-chart2',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
+        data: mat,
         xkey: 'y',
         ykeys: ['a', 'c'],
         labels: ['A', 'C'],

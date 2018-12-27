@@ -211,7 +211,7 @@
                             </div>
                         </div>
                     </div>
-
+<div style="display:none" id="summary">{{sitearr}}</div>
                     <!-- ======EDIT SITE FORM============== -->
                                  <div class="modal fade" id="exampleModal3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel1">
                                     <div class="modal-dialog" role="document">
@@ -534,38 +534,11 @@
 <script type="text/javascript">
     $(function () {
     "use strict";
-
+    var task_summary = document.getElementById('summary').innerHTML;   
+task_summary= JSON.parse(task_summary);
     Morris.Bar({
         element: 'morris-bar-chart',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
+        data:task_summary,
         xkey: 'y',
         ykeys: ['a', 'c'],
         labels: ['A', 'C'],
@@ -574,84 +547,7 @@
         gridLineColor: '#eef0f2',
         resize: true
     });
-    Morris.Bar({
-        element: 'morris-bar-chart1',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
-        xkey: 'y',
-        ykeys: ['a', 'c'],
-        labels: ['A', 'C'],
-        barColors:['#2f3d4a', '#2962FF'],
-        hideHover: 'auto',
-        gridLineColor: '#eef0f2',
-        resize: true
-    });
-    Morris.Bar({
-        element: 'morris-bar-chart2',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
-        xkey: 'y',
-        ykeys: ['a', 'c'],
-        labels: ['A', 'C'],
-        barColors:['#2f3d4a', '#2962FF'],
-        hideHover: 'auto',
-        gridLineColor: '#eef0f2',
-        resize: true
-    });
+   
  });    
 </script>
 
