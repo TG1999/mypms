@@ -449,7 +449,6 @@ app.get("/dashboard/viewproject",(req,res)=>{
                             })
                             arr.push(jsn)
                         }
-                        
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
                 	firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
