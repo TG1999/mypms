@@ -197,10 +197,10 @@
 
                 <div class="row">
                     <div class="col-sm-12 col-lg-4">
-                        <div class="card bg-purple text-white card-hover" style="cursor: pointer;">
+                        <div class="card bg-purple text-white card-hover" style="cursor: pointer;" id="editsitebutton">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <div class="m-r-10" id="editsitebutton">
+                                    <div class="m-r-10">
                                         <h4>Edit Site</h4>
                                         <span>Edit details eg. Site, leader, date etc.</span>
                                     </div>
@@ -222,7 +222,7 @@
                                             </div>
                                             <div class="modal-body">
                                                 <form method="POST" action="/editSite">
-                                                    <input type="text" class="form-control" name='siteLeaderold' id="proid" value="{{sitedetails.siteLeader}}" hidden="hidden">
+                                                    <input type="text" class="form-control" name='siteLeaderold' value="{{sitedetails.siteLeader}}" hidden="hidden">
                                                     <input type="text" class="form-control" name='proid' id="proid" value="{{proid}}" hidden="hidden">
                                                     <input type="text" class="form-control" name='siteid' id="siteid" value="{{sitedetails.siteId}}" hidden="hidden">
                                                     <div class="form-group">
@@ -231,7 +231,12 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Leader</label>
-                                                        <input type="text" name="siteLeader" class="form-control" id="siteLeader" value="{{sitedetails.siteLeader}}" required/>
+                                                        <select type="text" name="siteLeader" class="form-control" id="siteLeader" required> 
+                                                            <option value="{{sitedetails.siteLeader}}">{{sitedetails.siteLeader}}</option>
+                                                            {{#each name}}
+                                                            <option value="{{this.id}}">{{this.id}}</option>
+                                                            {{/each}}
+                                                        </select>
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Start Date</label>

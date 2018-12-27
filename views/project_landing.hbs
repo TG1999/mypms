@@ -196,11 +196,11 @@
 
                 <div class="row">
                    
-                    <div class="col-sm-12 col-lg-4">
+                    <div class="col-sm-12 col-lg-4" id="editprojectbutton">
                         <div class="card bg-purple text-white card-hover" style="cursor: pointer;">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
-                                    <div class="m-r-10" id="editprojectbutton">
+                                    <div class="m-r-10">
                                         <h4>Edit Project</h4>
                                         <span>Edit details eg. project name, manager etc.</span>
                                     </div>
@@ -274,11 +274,11 @@
                             </div>
                         </div>
                     </div>
-                     <div class="col-sm-12 col-lg-4">
-                         <div class="card bg-info text-white  card-hover" style="cursor: pointer;">
+                     <div class="col-sm-12 col-lg-4" onclick="javascript:alert('\nPlease use our Android app to download reports');">
+                         <div class="card bg-info text-white card-hover" style="cursor: pointer;">
                             <div class="card-body">
                                 <div class="d-flex">
-                                    <div class="m-r-10" onclick="javascript:alert('\nPlease use our Android app to download reports');">
+                                    <div class="m-r-10">
                                         <h4>Report</h4>
                                         <span>Download project report</span>
                                     </div>
@@ -441,16 +441,25 @@
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Unit</label>
                                                         <select type="text" name="unit" class="form-control" id="unit" required="required">
-                                                            <option value="Sq Mtr">Sq Mtr</option>
-                                                            <option value="Cu Mtr">Cu Mtr</option>
-                                                            <option value="Slope">Slope</option>
-                                                            <option value="ltr">Ltr</option>
-                                                            <option value="Sq Ft">Sq Ft</option>
-                                                            <option value="Barrels">Barrels</option>
-                                                            <option value="Feet">Feet</option>
-                                                            <option value="Pound">Pound</option>
-                                                            <option value="Ounce">Ounce</option>
-                                                            <option value="Miles">Miles</option>
+                                                            <option value="Nos">Nos</option>
+                                                            <option value="gram">gram</option>
+                                                            <option value="Kg">Kg</option>
+                                                            <option value="ounce">Ounce</option>
+                                                            <option value="pound">Pound</option>
+                                                            <option value="feet">feet</option>
+                                                            <option value="Mtr">Mtr</option>
+                                                            <option value="Km">Km</option>
+                                                            <option value="mile">Mile</option>
+                                                            <option value="sq ft">Sq Ft</option>
+                                                            <option value="sq mtr">Sq Mtr</option>
+                                                            <option value="sq mile">Sq Mile</option>
+                                                            <option value="litre">Liter</option>
+                                                            <option value="ml">ml</option>
+                                                            <option value="barrel">Barrel</option>
+                                                            <option value="cu mtr">Cu Mtr</option>
+                                                            <option value="slope">Slope</option>
+                                                            <option value="set">Set</option>
+                                                            <option value="dozen">Dozen</option>
                                                         </select>
                                                     </div>
                                             </div>
@@ -544,16 +553,25 @@
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Unit</label>
                                                         <select type="text" name="unit2" class="form-control" id="unit2" required="required">
-                                                            <option value="Sq Mtr">Sq Mtr</option>
-                                                            <option value="Cu Mtr">Cu Mtr</option>
-                                                            <option value="Slope">Slope</option>
-                                                            <option value="ltr">Ltr</option>
-                                                            <option value="Sq Ft">Sq Ft</option>
-                                                            <option value="Barrels">Barrels</option>
-                                                            <option value="Feet">Feet</option>
-                                                            <option value="Pound">Pound</option>
-                                                            <option value="Ounce">Ounce</option>
-                                                            <option value="Miles">Miles</option>
+                                                            <option value="Nos">Nos</option>
+                                                            <option value="gram">gram</option>
+                                                            <option value="Kg">Kg</option>
+                                                            <option value="ounce">Ounce</option>
+                                                            <option value="pound">Pound</option>
+                                                            <option value="feet">feet</option>
+                                                            <option value="Mtr">Mtr</option>
+                                                            <option value="Km">Km</option>
+                                                            <option value="mile">Mile</option>
+                                                            <option value="sq ft">Sq Ft</option>
+                                                            <option value="sq mtr">Sq Mtr</option>
+                                                            <option value="sq mile">Sq Mile</option>
+                                                            <option value="litre">Liter</option>
+                                                            <option value="ml">ml</option>
+                                                            <option value="barrel">Barrel</option>
+                                                            <option value="cu mtr">Cu Mtr</option>
+                                                            <option value="slope">Slope</option>
+                                                            <option value="set">Set</option>
+                                                            <option value="dozen">Dozen</option>
                                                         </select>
                                                     </div>
                                             </div>
@@ -580,8 +598,10 @@
                                 <div id="morris-bar-chart"></div>
                             </div>
                             <div class="card-body">
-                                <h4 class="card-title">Site Wise Work Summary</h4>
+                                <h4 class="card-title">Task Summary</h4>
                                 <div id="morris-bar-chart1"></div>
+                                <div style="display:none" id="task_summary">{{taskgraph}}</div>
+
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title">Site Wise Material Summary</h4>
@@ -674,6 +694,7 @@
                 }
                 return null;
             }
+
    </script>
     <!-- Bootstrap tether Core JavaScript -->
     <script src="/ui/assets/libs/popper.js/dist/umd/popper.min.js"></script>
@@ -697,40 +718,16 @@
 <script src="https://www.wrappixel.com/demos/admin-templates/adminx//assets/libs/raphael/raphael.min.js"></script>
 
 <script type="text/javascript">
+    var task_summary = document.getElementById('task_summary').innerHTML;
+    task_summary= JSON.parse(task_summary);
+
+
     $(function () {
     "use strict";
 
     Morris.Bar({
         element: 'morris-bar-chart',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
+        data: [],
         xkey: 'y',
         ykeys: ['a', 'c'],
         labels: ['A', 'C'],
@@ -741,35 +738,7 @@
     });
     Morris.Bar({
         element: 'morris-bar-chart1',
-        data: [{
-            y: '2006',
-            a: 100,
-            c: 60
-        }, {
-            y: '2007',
-            a: 75,
-            c: 40
-        }, {
-            y: '2008',
-            a: 50,
-            c: 30
-        }, {
-            y: '2009',
-            a: 75,
-            c: 40
-        }, {
-            y: '2010',
-            a: 50,
-            c: 30
-        }, {
-            y: '2011',
-            a: 75,
-            c: 40
-        }, {
-            y: '2012',
-            a: 100,
-            c: 40
-        }],
+        data: task_summary,
         xkey: 'y',
         ykeys: ['a', 'c'],
         labels: ['A', 'C'],

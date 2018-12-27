@@ -469,6 +469,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
                      console.log(project);
                      if(!(req.query.err))
                 	{console.log(timelinegraph,taskgraph,materialgraph);
+                        taskgraph=JSON.stringify(taskgraph);
                         return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,materialgraph,timelinegraph});
 	                }else{
 	                	console.log("crr: "+JSON.stringify(taskgraph));
@@ -1075,21 +1076,21 @@ app.get('/dashboard/viewsite',(req,res)=>{
                         }
                         if(!(snapshot.val())){
                             return res.render('error-404.hbs');
-                        }    
+                        }
                     var user=snapshot.val();
-                    var arr=[];
+                    var arr1=[];
                     for(var key in user){
                         var each=user[key];
-                        if(each.userType==='SiteLeader'&&(!(each.siteId)||(each.emailId===sitedetails.siteLeader))){
+                        if(each.userType==='SiteLeader'&&(!each.siteId)){
                             jsn={
                                 id:each.emailId,
                                 key:key
                             }
-                            arr.push(jsn);
+                            arr1.push(jsn);
                         }
                     }
-                    console.log(arr);
-                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr});    
+                    console.log(arr1);
+                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1});    
                 })
                 
             })   
@@ -1116,7 +1117,7 @@ app.post('/editSite',(req,res)=>{
                 {
                     uid=key;
                     delete eachuser.siteId
-                    firebase.database.ref('/User/'+uid).set(eachuser);
+                    firebase.database().ref('/User/'+uid).set(eachuser);
                 }
             }
             for(var key in user)
@@ -1126,7 +1127,7 @@ app.post('/editSite',(req,res)=>{
                 {
                     uid=key;
                     eachuser.siteId=req.body.siteid;
-                    firebase.database.ref('/User/'+uid).set(eachuser);
+                    firebase.database().ref('/User/'+uid).set(eachuser);
                 }
             }
         })

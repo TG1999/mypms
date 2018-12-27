@@ -286,16 +286,25 @@
                                             <td><input type="text" id="description_task" name="description_task" class="form-control" placeholder="Description"/></td>
                                             <td><input type="text" id="qty_task" name="qty_task" class="form-control" placeholder="Quanitity"/></td>
                                         <td><select type="text" id="type_task" name="type_task" class="form-control" placeholder="Unit">
-                                                            <option value="Sq Mtr">Sq Mtr</option>
-                                                            <option value="Cu Mtr">Cu Mtr</option>
-                                                            <option value="Slope">Slope</option>
-                                                            <option value="ltr">Ltr</option>
-                                                            <option value="Sq Ft">Sq Ft</option>
-                                                            <option value="Barrels">Barrels</option>
-                                                            <option value="Feet">Feet</option>
-                                                            <option value="Pound">Pound</option>
-                                                            <option value="Ounce">Ounce</option>
-                                                            <option value="Miles">Miles</option>
+                                                            <option value="Nos">Nos</option>
+                                                            <option value="gram">gram</option>
+                                                            <option value="Kg">Kg</option>
+                                                            <option value="ounce">Ounce</option>
+                                                            <option value="pound">Pound</option>
+                                                            <option value="feet">feet</option>
+                                                            <option value="Mtr">Mtr</option>
+                                                            <option value="Km">Km</option>
+                                                            <option value="mile">Mile</option>
+                                                            <option value="sq ft">Sq Ft</option>
+                                                            <option value="sq mtr">Sq Mtr</option>
+                                                            <option value="sq mile">Sq Mile</option>
+                                                            <option value="litre">Liter</option>
+                                                            <option value="ml">ml</option>
+                                                            <option value="barrel">Barrel</option>
+                                                            <option value="cu mtr">Cu Mtr</option>
+                                                            <option value="slope">Slope</option>
+                                                            <option value="set">Set</option>
+                                                            <option value="dozen">Dozen</option>
                                             </select>    
                                                 <input type="text" id="n_task" name="n_task" class="form-control" hidden/></td>
                                         </tr>
@@ -345,16 +354,25 @@
                                     </td>
                                     <td><input type="number" id="qty_boq" name="qty_boq" class="form-control" placeholder="Quantity" min="0" step="1"/></td>
                                     <td><select type="text" id="type_boq" name="type_boq" class="form-control" placeholder="Select Unit">
-                                                            <option value="Sq Mtr">Sq Mtr</option>
-                                                            <option value="Cu Mtr">Cu Mtr</option>
-                                                            <option value="Slope">Slope</option>
-                                                            <option value="ltr">Ltr</option>
-                                                            <option value="Sq Ft">Sq Ft</option>
-                                                            <option value="Barrels">Barrels</option>
-                                                            <option value="Feet">Feet</option>
-                                                            <option value="Pound">Pound</option>
-                                                            <option value="Ounce">Ounce</option>
-                                                            <option value="Miles">Miles</option>
+                                                           <option value="Nos">Nos</option>
+                                                            <option value="gram">gram</option>
+                                                            <option value="Kg">Kg</option>
+                                                            <option value="ounce">Ounce</option>
+                                                            <option value="pound">Pound</option>
+                                                            <option value="feet">feet</option>
+                                                            <option value="Mtr">Mtr</option>
+                                                            <option value="Km">Km</option>
+                                                            <option value="mile">Mile</option>
+                                                            <option value="sq ft">Sq Ft</option>
+                                                            <option value="sq mtr">Sq Mtr</option>
+                                                            <option value="sq mile">Sq Mile</option>
+                                                            <option value="litre">Liter</option>
+                                                            <option value="ml">ml</option>
+                                                            <option value="barrel">Barrel</option>
+                                                            <option value="cu mtr">Cu Mtr</option>
+                                                            <option value="slope">Slope</option>
+                                                            <option value="set">Set</option>
+                                                            <option value="dozen">Dozen</option>
                                         </select>
                                         <input type="text" id="n_boq" name="n_boq" class="form-control" hidden/></td>
                                 </tr>
@@ -404,7 +422,7 @@
         }
          function addtaskrow(){
             if(tasklimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_task" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" name="description_task" class="form-control" placeholder="Description" required/></td><td><input type="text" name="qty_task" class="form-control" placeholder="Quanitity" required/></td><td><select type="text" name="type_task" class="form-control" placeholder="Unit" required="required"><option value="Sq Mtr">Sq Mtr</option><option value="Cu Mtr">Cu Mtr</option><option value="Slope">Slope</option><option value="ltr">Ltr</option><option value="Sq Ft">Sq Ft</option><option value="Barrels">Barrels</option><option value="Feet">Feet</option><option value="Pound">Pound</option><option value="Ounce">Ounce</option><option value="Miles">Miles</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_task" class="form-control" placeholder="Task name" required/></h4></td><td><input type="text" name="description_task" class="form-control" placeholder="Description" required/></td><td><input type="text" name="qty_task" class="form-control" placeholder="Quanitity" required/></td><td><select type="text" name="type_task" class="form-control" placeholder="Unit" required="required"><option value="Nos">Nos</option><option value="gram">gram</option><option value="Kg">Kg</option><option value="ounce">Ounce</option><option value="pound">Pound</option><option value="feet">feet</option><option value="Mtr">Mtr</option><option value="Km">Km</option><option value="mile">Mile</option><option value="sq ft">Sq Ft</option><option value="sq mtr">Sq Mtr</option><option value="sq mile">Sq Mile</option><option value="litre">Liter</option><option value="ml">ml</option><option value="barrel">Barrel</option><option value="cu mtr">Cu Mtr</option><option value="slope">Slope</option><option value="set">Set</option><option value="dozen">Dozen</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-task').append(html);
             tasklimit++;
             document.getElementById('n_task').value=tasklimit;
@@ -413,7 +431,7 @@
         }
          function addboqrow(){
             if(boqlimit < 20){
-            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_boq" class="form-control" placeholder="Material" required/></h4></td><td><input type="number" name="qty_boq" class="form-control" placeholder="Quantity"  min="0" step="1" required/></td><td><select type="text"  name="type_boq" class="form-control" placeholder="Select Unit" required="required"><option value="Sq Mtr">Sq Mtr</option><option value="Cu Mtr">Cu Mtr</option><option value="Slope">Slope</option><option value="ltr">Ltr</option><option value="Sq Ft">Sq Ft</option><option value="Barrels">Barrels</option><option value="Feet">Feet</option><option value="Pound">Pound</option><option value="Ounce">Ounce</option><option value="Miles">Miles</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
+            var html = '<tr><td><h4 class="m-b-0 font-16"><input type="text" name="name_boq" class="form-control" placeholder="Material" required/></h4></td><td><input type="number" name="qty_boq" class="form-control" placeholder="Quantity"  min="0" step="1" required/></td><td><select type="text"  name="type_boq" class="form-control" placeholder="Select Unit" required="required"><option value="Nos">Nos</option><option value="gram">gram</option><option value="Kg">Kg</option><option value="ounce">Ounce</option><option value="pound">Pound</option><option value="feet">feet</option><option value="Mtr">Mtr</option><option value="Km">Km</option><option value="mile">Mile</option><option value="sq ft">Sq Ft</option><option value="sq mtr">Sq Mtr</option><option value="sq mile">Sq Mile</option><option value="litre">Liter</option><option value="ml">ml</option><option value="barrel">Barrel</option><option value="cu mtr">Cu Mtr</option><option value="slope">Slope</option><option value="set">Set</option><option value="dozen">Dozen</option></select></td><td><span class="btn btn-circle btn-danger text-white btnDelete"><i class="ti-close"></i></span></td></tr>';
             $('#tbody-boq').append(html);
             boqlimit++;
             document.getElementById('n_boq').value=boqlimit;
