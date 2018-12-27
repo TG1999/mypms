@@ -405,14 +405,14 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     datearray=endDate.split('/');
                     endDate = datearray[1] + '/' + datearray[0] + '/' + datearray[2];
                     endDate=new Date(endDate);
-                    json=[];
-                    json.push({
+                    graph=[];
+                    graph.push({
                         y:'Timeline',a:(endDate-startDate)/86400000,c:(Date.now()-startDate)/86400000
                     })
-                    json.push({
+                    graph.push({
                         y:'WorkStatus',a:(endDate-startDate)/86400000,c:(endDate-startDate)/86400000*work
                     })
-                    json.push({
+                    graph.push({
                         y:'MaterialStatus',a:(endDate-startDate)/86400000,c:(endDate-startDate)/86400000*material
                     })
                     id=each.projectId;
@@ -470,17 +470,17 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     firebase.database().ref(req.cookies.hash+'/Project/'+id).once('value',(snapshot,err)=>{
                      console.log('Project:'+snapshot.val());
                      var project=snapshot.val();
-                     json.proid=id;
+                     
                      console.log(project);
                          if(!(req.query.err))
                 	{console.log(json,taskgraph,matgraph);
                         taskgraph=JSON.stringify(taskgraph);
-                        json=JSON.stringify(json);
+                        graph=JSON.stringify(graph);
                         matgraph=JSON.stringify(matgraph);
-                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,matgraph});
+                        return res.render('project_landing.hbs',{data:json,arr:arr,count:count,brr:brr,crr:crr,project,taskgraph,matgraph,graph});
 	                }else{
 	                	console.log("crr: "+JSON.stringify(taskgraph));
-	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,matgraph});
+	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,matgraph,graph});
 	                }
                      
                         
