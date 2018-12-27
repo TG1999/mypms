@@ -470,6 +470,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     firebase.database().ref(req.cookies.hash+'/Project/'+id).once('value',(snapshot,err)=>{
                      console.log('Project:'+snapshot.val());
                      var project=snapshot.val();
+                     json.proid=id;
                      console.log(project);
                          if(!(req.query.err))
                 	{console.log(json,taskgraph,matgraph);
