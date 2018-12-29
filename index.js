@@ -155,10 +155,13 @@ app.post('/append',(req,res)=>{
     console.log(JSON.stringify(req.body));
     flag=false;
     if(countofsites==1){
+    	let timestamp = new Date();
+    	var month = timestamp.getMonth() + 1;
+    	timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
         site={
             endDate:req.body.end_site,
             location:req.body.name_site,
-            siteId:req.body.name_site,
+            siteId: timestamp,
             siteLeader:req.body.leader_site.split('/')[0],
             siteMaterialStatus:0,
             siteWorkStatus:0,
@@ -170,13 +173,13 @@ app.post('/append',(req,res)=>{
             var usr=snapshot.val();
             for(var us in usr){
                 if(usr[us].emailId===site.siteLeader){
-                    usr[us].siteId=req.body.name_site;
+                    usr[us].siteId= timestamp;
                     console.log(usr[us]);
                     firebase.database().ref('/User').child(us).set(usr[us]);
                 }
             }
         })}
-       if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(req.body.name_site).set(site))){
+       if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(site))){
             flag=true
        } 
         // firebase.database().ref('/User/'+req.body.leader_site.split('/')[1]).child('projectId').set(ref.key).then(()=>{
@@ -185,16 +188,19 @@ app.post('/append',(req,res)=>{
     }
     else{
         for(i=0;i<countofsites;i++){
+        	let timestamp = new Date();
+    		var month = timestamp.getMonth() + 1;
+    		timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
             site={
                 endDate:req.body.end_site[i],
                 location:req.body.name_site[i],
-                siteId:req.body.name_site[i],
+                siteId: timestamp,
                 siteLeader:req.body.leader_site[i].split('/')[0],
                 siteMaterialStatus:0,
                 siteWorkStatus:0,
                 startDate:req.body.start_site[i]
             }
-            if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(req.body.name_site[i]).set(site))){
+            if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(site))){
                 flag=true;
             }
         }
@@ -208,11 +214,11 @@ app.post('/append',(req,res)=>{
         }
         console.log(material.unit);
         if (!(material.materialName ==='')&&(req.body.qty_boq)&&(req.body.name_boq)&&(req.body.type_boq)){
-       if(!(firebase.database().ref(req.cookies.hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq).set(material)))
-       {
-           flag=true;
-       } 
-        }
+	       if(!(firebase.database().ref(req.cookies.hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq).set(material)))
+	       {
+	           flag=true;
+	       } 
+      }
     }
     else{
         for(i=0;i<countofmaterial;i++){
@@ -230,36 +236,41 @@ app.post('/append',(req,res)=>{
         }
     }
     if(countoftask==1){
-        
+    	let timestamp = new Date();
+    	var month = timestamp.getMonth() + 1;
+    	timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
         task={
             projectId:projectId,
             taskCount:req.body.qty_task,
             taskCountDone:0,
             taskDescription:req.body.description_task,
-            taskId:req.body.name_task,
+            taskId: timestamp,
             taskName:req.body.name_task,
             unit:req.body.type_task,
             taskCountAssigned:0
         }
         if (!(req.body.name_task ==='')){
-        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(req.body.name_task).set(task))){
+        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(timestamp).set(task))){
             flag=true
         }
         }
     }
     else{
     for(i=0;i<countoftask;i++){
+    	let timestamp = new Date();
+    	var month = timestamp.getMonth() + 1;
+    	timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
         task={
             projectId:projectId,
             taskCount:req.body.qty_task[i],
             taskCountDone:0,
             taskDescription:req.body.description_task[i],
-            taskId:req.body.name_task[i],
+            taskId: timestamp,
             taskName:req.body.name_task[i],
             unit:req.body.type_task[i],
             taskCountAssigned:0
         }
-        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(req.body.name_task[i]).set(task))){
+        if(!(firebase.database().ref(req.cookies.hash+'/ProjectTask').child(projectId).child(timestamp).set(task))){
             flag=true
         }
     }}
