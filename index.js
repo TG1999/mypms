@@ -6,6 +6,7 @@ const Fire=require('firebase');
 const cookieparser=require('cookie-parser');
 const sha256=require('sha256');
 app.use(cookieparser());
+console.log(sha256("testing4@mail.com"));
 const md5=require('md5');
 const str_tr=md5('true');
 var config = {
@@ -169,16 +170,11 @@ app.post('/append',(req,res)=>{
         }
         if (!(req.body.name_site==="")&&(req.body.end_site)&&(req.body.name_site)&&(req.body.leader_site)&&(req.body.start_site)){
             {console.log('sites');
-        firebase.database().ref('/User').on('value',(snapshot,err)=>{
-            var usr=snapshot.val();
-            for(var us in usr){
-                if(usr[us].emailId===site.siteLeader){
-                    usr[us].siteId= timestamp;
-                    console.log(usr[us]);
-                    firebase.database().ref('/User').child(us).set(usr[us]);
-                }
-            }
-        })}
+            firebase.database().ref('/User/'+sha256(site.siteLeader)).on('value',(snapshot,err)=>{
+                var usr=snapshot.val();
+                usr.siteId=site.siteId;
+                firebase.database().ref('/User').child(sha256(site.siteLeader)).set(usr);
+            })}
        if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(site))){
             flag=true
        } 
@@ -200,6 +196,11 @@ app.post('/append',(req,res)=>{
                 siteWorkStatus:0,
                 startDate:req.body.start_site[i]
             }
+            firebase.database().ref('/User/'+sha256(site.siteLeader)).on('value',(snapshot,err)=>{
+                var usr=snapshot.val();
+                usr.siteId=timestamp;
+                firebase.database().ref('/User').child(sha256(site.siteLeader)).set(usr);
+            })
             if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(site))){
                 flag=true;
             }
