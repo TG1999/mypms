@@ -282,6 +282,7 @@ app.post('/append',(req,res)=>{
 app.get("/dashboard/viewproject",(req,res)=>{
 	var brr=[];
     var crr=[];
+    var count = 0;
     if(str_tr===req.cookies.flag)
     {
         firebase.database().ref(req.cookies.hash+'/Project').once('value',(snapshot,err)=>{
@@ -289,14 +290,9 @@ app.get("/dashboard/viewproject",(req,res)=>{
                 console.log(err);
                 return res.render('error-404.hbs');
             }
-            if(!(snapshot.val())){
-                return res.render('error-404.hbs');
-            }
             var arr=[];
-            if(err){
-                console.log(err);
-            }
             var user=snapshot.val();
+
             for (var key in user) {
                 var each=user[key]
                 if(each.projectId===req.query.project)
@@ -332,6 +328,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     firebase.database().ref(req.cookies.hash+'/Site').once('value',(snapshot,err)=>{
                         taskgraph=[];
                         matgraph=[];
+                        if (snapshot.val() != null){
                         var sites=snapshot.val()[id];
                         totalwork=0;
                         totalmaterial=0;
@@ -364,27 +361,34 @@ app.get("/dashboard/viewproject",(req,res)=>{
                         }
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
+                    }
+
                 	firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+id).once('value',(snapshot,err)=>{
+                    if (snapshot.val() != null){
                     var mat=snapshot.val();
                     for(var key in mat){
                         brr.push(mat[key]);
 
                     }
                     console.log("mat: "+mat);
-    
+    				}
                     firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
+                    if (snapshot.val() != null){
                     var mat=snapshot.val();
                     for(var key in mat){
                         crr.push(mat[key]);
                     }
                     
                   	console.log("taskarray: "+JSON.stringify(crr));
+                  }
                     firebase.database().ref(req.cookies.hash+'/Project/'+id).once('value',(snapshot,err)=>{
+                    if (snapshot.val() != null ){
                      console.log('Project:'+snapshot.val());
                      var project=snapshot.val();
                      
                      console.log(project);
-                         if(!(req.query.err))
+                 	}
+                    if(!(req.query.err))
                 	{console.log(json,taskgraph,matgraph);
                         taskgraph=JSON.stringify(taskgraph);
                         graph=JSON.stringify(graph);
@@ -394,8 +398,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
 	                	console.log("crr: "+JSON.stringify(taskgraph));
 	                    return res.render('project_landing.hbs',{data:json,arr:arr,count:count,err:req.query.err,brr:brr,crr:crr,project,taskgraph,matgraph,graph});
 	                }
-                     
-                        
+                                            
                     })
                   	
                 	})
