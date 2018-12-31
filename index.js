@@ -427,6 +427,7 @@ app.post('/adduser',(req,res)=>{
                 name:name,
                 phoneNumber:phone,
                 userType:req.body.type,
+                companyName:req.cookies.companyName,
                 companyHash:req.cookies.hash}
         firebase.database().ref('/User').child(sha256(emailId)).set(json).then(()=>{
             res.redirect('/dashboard');
