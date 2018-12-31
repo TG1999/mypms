@@ -82,9 +82,6 @@ app.get('/dashboard',(req,res)=>{
                 console.log(err);
                 return res.render('error-404.hbs');
             }
-            if(!(snapshot.val())){
-                return res.render('error-404.hbs');
-            }
             var user=snapshot.val();
             var arr=[];
             var vs = [{color:"info"},{color:"purple"},{color:"danger"},{color:"success"}];
@@ -416,6 +413,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
     }
 })
 
+
 app.post('/adduser',(req,res)=>{
     let name=req.body.name;
     let emailId=req.body.email;
@@ -685,7 +683,6 @@ app.post('/editSite',(req,res)=>{
         })
         firebase.database().ref(req.cookies.hash+'/Site/'+reditid+'/'+reditid1).set(site);
     })
-    
     res.redirect('/dashboard/viewsite?project='+reditid+'&site='+reditid1);
 })
 
@@ -722,7 +719,7 @@ app.post('/assignSiteTask',(req,res)=>{
 			else{
 				zz.taskCount=taskCount;
 				firebase.database().ref(req.cookies.hash+'/SiteTask/'+site+'/'+taskId).set(zz);
-			}	
+			}
 			res.redirect('/dashboard/viewsite?project='+project+"&site="+site);
      })
 
