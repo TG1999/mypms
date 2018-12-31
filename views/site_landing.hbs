@@ -519,8 +519,8 @@
     });
    </script>
    <script type="text/javascript">
-           var userName = readCookie('userName');
-           var companyName = readCookie('companyName');
+           	var userName = decodeURI(readCookie('userName'));
+           	var companyName = readCookie('companyName');
             document.getElementById('userName').innerHTML=userName;
             document.getElementById('companyName').innerHTML=companyName;
             function readCookie(name) {
