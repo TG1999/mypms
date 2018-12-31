@@ -304,12 +304,46 @@
                                     </div>
                                     <div class="ml-auto">
                                         <div class="dl">
-                                            <!-- <div class="text-right upgrade-btn" onclick="updateProject('{{data.proid}}');">
-                                                <span class="btn btn-info text-white">Add task</span>
-                                            </div> -->
+                                            <div class="text-right upgrade-btn" id="assignTask">
+                                                <span class="btn btn-info text-white">Assign task</span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
+
+                                 <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel2">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title" id="exampleModalLabel1">Assign Site Task</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form method="POST" action="/assignSiteTask">
+                                                    <div class="form-group">
+                                                    	<input type="text" name="project" value="{{proid}}" hidden/>
+                                                    	<input type="text" name="site" value="{{sitedetails.siteId}}" hidden/>
+                                                        <label for="recipient-name" class="control-label">Task Name</label>
+                                                        <select type="text" name="taskId" class="form-control" id="taskId">
+                                                        	{{#each projectTasks}}
+                                                        	<option value="{{this.taskId}}">{{this.taskName}}</option>
+                                                        	{{/each}}
+                                                        </select>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="recipient-name" class="control-label">Count</label>
+                                                        <input type="text" name="taskCount" class="form-control" id="taskCount">
+                                                    </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <input value="Edit BOQ" type="submit" class="btn btn-primary"></input>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
                                 <!-- title -->
                             </div>
                             <div class="table-responsive">
@@ -449,14 +483,6 @@
                                 <h4 class="card-title">Timeline</h4>
                                 <div id="morris-bar-chart"></div>
                             </div>
-                            <div class="card-body">
-                                <h4 class="card-title">Site Wise Work Summary</h4>
-                                <div id="morris-bar-chart1"></div>
-                            </div>
-                            <div class="card-body">
-                                <h4 class="card-title">Site Wise Material Summary</h4>
-                                <div id="morris-bar-chart2"></div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -487,12 +513,10 @@
        $('#editsitebutton').click(function(){
         	$('#exampleModal3').modal({show:true})
         })
-
+       $('#assignTask').click(function(){
+        	$('#exampleModal2').modal({show:true})
+        })
     });
-
-    function updateProject(proid) {
-        window.location = "/dashboard/updateProject?project="+proid;        
-    }
    </script>
    <script type="text/javascript">
            var userName = readCookie('userName');

@@ -163,7 +163,7 @@ app.post('/append',(req,res)=>{
             endDate:req.body.end_site,
             location:req.body.name_site,
             siteId: timestamp,
-            siteLeader:req.body.leader_site.split('/')[0],
+            siteLeader:req.body.leader_site,
             siteMaterialStatus:0,
             siteWorkStatus:0,
             startDate:req.body.start_site
@@ -187,23 +187,25 @@ app.post('/append',(req,res)=>{
         	let timestamp = new Date();
     		var month = timestamp.getMonth() + 1;
     		timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
-            site={
+            let sitesx={
                 endDate:req.body.end_site[i],
                 location:req.body.name_site[i],
                 siteId: timestamp,
-                siteLeader:req.body.leader_site[i].split('/')[0],
+                siteLeader:req.body.leader_site[i],
                 siteMaterialStatus:0,
                 siteWorkStatus:0,
                 startDate:req.body.start_site[i]
             }
-            firebase.database().ref('/User/'+sha256(site.siteLeader)).on('value',(snapshot,err)=>{
+            firebase.database().ref('/User/'+sha256(sitesx.siteLeader)).on('value',(snapshot,err)=>{
                 var usr=snapshot.val();
                 usr.siteId=timestamp;
-                firebase.database().ref('/User').child(sha256(site.siteLeader)).set(usr);
-            })
-            if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(site))){
+                firebase.database().ref('/User').child(sha256(sitesx.siteLeader)).set(usr);
+            
+            if(!(firebase.database().ref(req.cookies.hash+'/Site').child(projectId).child(timestamp).set(sitesx))){
                 flag=true;
             }
+            })
+            
         }
     }
     if(countofmaterial==1){
@@ -621,10 +623,27 @@ app.get('/dashboard/viewsite',(req,res)=>{
                             arr1.push(jsn);
                         }
                     }
-                    console.log(arr1);
-                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1,sitearr});    
+                    firebase.database().ref(req.cookies.hash+'/ProjectTask/'+proid).once('value',(snapshot,err)=>{  
+				            if(err){
+				                console.log(err);
+				                return res.render('error-404.hbs');
+				            }
+				            if(!(snapshot.val())){
+				                return res.render('error-404.hbs');
+				            }
+				        var projectTasks=snapshot.val();
+				        var arrx=[];
+				        for(var key in projectTasks){
+				        	 var each=projectTasks[key];
+				              jsn={
+				                   taskId:each.taskId,
+				                   taskName:each.taskName
+				                   }
+				              arrx.push(jsn);
+				        }
+                    res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1,sitearr,projectTasks:arrx});    
                 })
-                
+                })
             })   
         })
     })
@@ -668,6 +687,49 @@ app.post('/editSite',(req,res)=>{
     
     res.redirect('/dashboard/viewsite?project='+reditid+'&site='+reditid1);
 })
+
+app.post('/assignSiteTask',(req,res)=>{
+    if(str_tr===req.cookies.flag){
+    var project = req.body.project;
+    var site = req.body.site;
+    var taskId = req.body.taskId;
+    var taskCount = req.body.taskCount;
+    console.log("here is task Id: "+taskId)
+   
+    if(req.cookies.flag===str_tr){
+
+        firebase.database().ref(req.cookies.hash+'/SiteTask/'+site+"/"+taskId).once('value',(snapshot,err)=>{
+        	var zz=snapshot.val();
+        	if (!zz){
+			        firebase.database().ref(req.cookies.hash+'/ProjectTask/'+project+"/"+taskId).once('value',(snapshot,err)=>{  
+			            if(err){
+			                console.log(err);
+			                return res.render('error-404.hbs');
+			            }
+			            if(!(snapshot.val())){
+			                return res.render('error-404.hbs');
+			            }
+			        var projectTasks=snapshot.val();
+			   		var tempjsn={};
+			   		tempjsn.siteId=site;
+			   		tempjsn.taskCount=taskCount;
+			   		tempjsn.taskCountDone=0;
+			   		tempjsn.taskid= taskId;
+			   		tempjsn.taskName = projectTasks.taskName;
+			   		firebase.database().ref(req.cookies.hash+'/SiteTask/'+site+'/'+taskId).set(tempjsn);
+			    })}
+			else{
+				zz.taskCount=taskCount;
+				firebase.database().ref(req.cookies.hash+'/SiteTask/'+site+'/'+taskId).set(zz);
+			}	
+			res.redirect('/dashboard/viewsite?project='+project+"&site="+site);
+     })
+
+    }}
+    else{
+    res.redirect('/signout');}
+})
+
 
 app.listen(process.env.PORT||3000,()=>{
     console.log('http://localhost:3000')})
