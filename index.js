@@ -52,7 +52,7 @@ app.get('/hello',(req,res)=>{
         {
             if(user.userType=='Admin')
             {
-                res.cookie('hash',user.CompanyHash)
+                res.cookie('hash',user.companyHash)
                 res.cookie('flag',str_tr)
                 res.cookie('companyName',user.companyName)
                 res.cookie('userName',user.name)
