@@ -45,21 +45,20 @@ app.get('/login',(req,res)=>{
 hash='';
 
 app.get('/hello',(req,res)=>{
-    firebase.database().ref('/User').once('value',(snapshot,err)=>{
-        var users=snapshot.val();
+    firebase.database().ref('/User/'+sha256(Fire.auth().currentUser.providerData[0].email)).once('value',(snapshot,err)=>{
+        var user=snapshot.val();
         var flag=true;
-        for(var key in users){
-            each=users[key];
-            flag=false;
-            if(each.emailId==Fire.auth().currentUser.providerData[0].email&&(each.userType=='Admin')){
-                hash=each.companyHash
-                res.cookie('hash',hash)
+        if(user)
+        {
+            if(user.userType=='Admin')
+            {
+                res.cookie('hash',user.hash)
                 res.cookie('flag',str_tr)
-                res.cookie('companyName',each.companyName)
-                res.cookie('userName',each.name)
-                res.cookie('emailid',each.emailId)
-                console.log(hash)
-                return res.redirect('/dashboard')
+                res.cookie('companyName',user.companyName)
+                res.cookie('userName',user.name)
+                res.cookie('emailid',user.emailId)
+                flag=false;
+                res.redirect('/dashboard')  
             }
         }
         if(flag)
@@ -332,10 +331,12 @@ app.get("/dashboard/viewproject",(req,res)=>{
                     firebase.database().ref(req.cookies.hash+'/Site').once('value',(snapshot,err)=>{
                         taskgraph=[];
                         matgraph=[];
-                        var sites=snapshot.val()[id];
                         totalwork=0;
                         totalmaterial=0;
                         count=0;
+                        if(snapshot.val()){
+                            var sites=snapshot.val()[id];
+                        
                         for(var key in sites)
                         {
                             count++;
@@ -361,6 +362,8 @@ app.get("/dashboard/viewproject",(req,res)=>{
                                 c:each.siteMaterialStatus*10
                             })
                             arr.push(jsn)
+                        }
+
                         }
                         console.log("json: "+ JSON.stringify(json));
                         console.log("array: "+JSON.stringify(arr));
@@ -514,31 +517,14 @@ app.get('/profile',(req,res)=>{
         var name="";
 		var emp="";
 		var phn="";
-    firebase.database().ref('/User').once('value',(snapshot,err)=>{
-        var flag=false
-        if(err){
-            console.log(err);
-        }
-        var user=snapshot.val();
-        for (var key in user) {
-            var each=user[key]
-            if(each.emailId===(req.cookies.emailid)){
-                name=each.name;
-                emp=each.userType;
-                phn=each.phoneNumber;
-                console.log(name,emp,phn,each.emailId)
-            }
-          }
-          res.render('profile',{email:req.cookies.emailid,
-        name,emp,phn})
-    // res.send(`<h1>
-    // Email:${}<br>
-    // Name:${name}<br>
-    // Emp Type:${emp}<br>
-    // Phone No:${phn}
-    // </h1>
-    // `)
-})
+        firebase.database().ref('/User/'+sha256(req.cookies.emailid)).on('value',(snapshot,err)=>{
+            var usr=snapshot.val();
+            name=usr.name;
+            emp=usr.userType;
+            phn=usr.phoneNumber;
+            res.render('profile',{email:req.cookies.emailid,
+                name,emp,phn})  
+        })
     }
     else{
         return res.redirect('/login')
@@ -607,10 +593,8 @@ app.get('/dashboard/viewsite',(req,res)=>{
                             console.log(err);
                             return res.render('error-404.hbs');
                         }
-                        if(!(snapshot.val())){
-                            return res.render('error-404.hbs');
-                        }
-                    var user=snapshot.val();
+                        if((snapshot.val())){
+                            var user=snapshot.val();
                     var arr1=[];
                     for(var key in user){
                         var each=user[key];
@@ -621,25 +605,27 @@ app.get('/dashboard/viewsite',(req,res)=>{
                             }
                             arr1.push(jsn);
                         }
+                        }
+                    
                     }
                     firebase.database().ref(req.cookies.hash+'/ProjectTask/'+proid).once('value',(snapshot,err)=>{  
 				            if(err){
 				                console.log(err);
 				                return res.render('error-404.hbs');
 				            }
-				            if(!(snapshot.val())){
-				                return res.render('error-404.hbs');
+				            if((snapshot.val())){
+                                var projectTasks=snapshot.val();
+                                var arrx=[];
+                                for(var key in projectTasks){
+                                     var each=projectTasks[key];
+                                      jsn={
+                                           taskId:each.taskId,
+                                           taskName:each.taskName
+                                           }
+                                      arrx.push(jsn);
+                                }   
 				            }
-				        var projectTasks=snapshot.val();
-				        var arrx=[];
-				        for(var key in projectTasks){
-				        	 var each=projectTasks[key];
-				              jsn={
-				                   taskId:each.taskId,
-				                   taskName:each.taskName
-				                   }
-				              arrx.push(jsn);
-				        }
+				        
                     res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1,sitearr,projectTasks:arrx});    
                 })
                 })
@@ -657,29 +643,35 @@ app.post('/editSite',(req,res)=>{
         site.location=req.body.location;
         site.startDate=req.body.startDate;
         site.siteLeader=req.body.siteLeader;
-        firebase.database().ref('/User').once('value',(snapshot,err)=>{
+        firebase.database().ref('/User/'+sha256(req.body.siteLeaderold)).once('value',(snapshot,err)=>{
             user=snapshot.val();
-            var uid='';
-            for(var key in user)
-            {
-                eachuser=user[key];
-                if(eachuser.emailId===req.body.siteLeaderold)
-                {
-                    uid=key;
-                    delete eachuser.siteId
-                    firebase.database().ref('/User/'+uid).set(eachuser);
-                }
-            }
-            for(var key in user)
-            {
-                eachuser=user[key];
-                if(eachuser.emailId===req.body.siteLeader)
-                {
-                    uid=key;
-                    eachuser.siteId=req.body.siteid;
-                    firebase.database().ref('/User/'+uid).set(eachuser);
-                }
-            }
+            delete user.siteId;
+            firebase.database().ref('/User/'+sha256(req.body.siteLeaderold)).set(user)
+            // for(var key in user)
+            // {
+            //     eachuser=user[key];
+            //     if(eachuser.emailId===)
+            //     {
+            //         uid=key;
+            //         delete eachuser.siteId
+            //         firebase.database().ref('/User/'+uid).set(eachuser);
+            //     }
+            // }
+            // for(var key in user)
+            // {
+            //     eachuser=user[key];
+            //     if(eachuser.emailId===req.body.siteLeader)
+            //     {
+            //         uid=key;
+            //         eachuser.siteId=req.body.siteid;
+            //         firebase.database().ref('/User/'+uid).set(eachuser);
+            //     }
+            // }
+            firebase.database().ref('/User/'+sha256(req.body.siteLeader)).once('value',(snapshot,err)=>{
+                user=snapshot.val();
+                user.siteId=req.body.siteid;
+                firebase.database().ref('/User/'+sha256(req.body.siteLeader)).set(user)
+            })
         })
         firebase.database().ref(req.cookies.hash+'/Site/'+reditid+'/'+reditid1).set(site);
     })
