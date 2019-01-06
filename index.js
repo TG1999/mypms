@@ -6,20 +6,19 @@ const Fire=require('firebase');
 const cookieparser=require('cookie-parser');
 const sha256=require('sha256');
 app.use(cookieparser());
-console.log(sha256("testing4@mail.com"));
 const md5=require('md5');
 const str_tr=md5('true');
 var config = {
-    apiKey: "AIzaSyBp_gl1Kl88O1Y5HdQ9fS-UA8aJ3kUwQP4",
-    authDomain: "mypms-a02f5.firebaseapp.com",
-    databaseURL: "https://mypms-a02f5.firebaseio.com",
-    projectId: "mypms-a02f5",
-    storageBucket: "mypms-a02f5.appspot.com",
-    messagingSenderId: "993235972952"
+    apiKey: "AIzaSyCEPqtQmRNqutdf7a97GnTKurs9eVrSC20",
+    authDomain: "mypms-c8f2b.firebaseapp.com",
+    databaseURL: "https://mypms-c8f2b.firebaseio.com",
+    projectId: "mypms-c8f2b",
+    storageBucket: "mypms-c8f2b.appspot.com",
+    messagingSenderId: "137305551681"
   };
   Fire.initializeApp(config);
   firebase.initializeApp({
-    databaseURL:"https://mypms-a02f5.firebaseio.com",
+    databaseURL:"https://mypms-c8f2b.firebaseio.com",
     credential:firebase.credential.cert('mypms_cred.json')
 })
 
