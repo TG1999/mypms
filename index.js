@@ -98,7 +98,6 @@ app.get('/dashboard',(req,res)=>{
                     arr.push(jsn);
                     if(i<3){i=i+1;}else{i=0}
             }
-            // console.log(arr);
             return res.render('dashboard_ui.hbs',{data:arr});
             });
     }
@@ -624,7 +623,6 @@ app.get('/dashboard/viewsite',(req,res)=>{
                                       arrx.push(jsn);
                                 }   
 				            }
-				        
                     res.render('site_landing.hbs',{material:arr,task:brr,proid,sitedetails:sitedetails,name:arr1,sitearr,projectTasks:arrx});    
                 })
                 })
