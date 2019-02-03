@@ -8,6 +8,8 @@ const sha256=require('sha256');
 app.use(cookieparser());
 const md5=require('md5');
 const str_tr=md5('true');
+const Cryptr = require('cryptr');
+const cryptr = new Cryptr('myTotalySecretKey');
 var config = {
     apiKey: "AIzaSyCEPqtQmRNqutdf7a97GnTKurs9eVrSC20",
     authDomain: "mypms-c8f2b.firebaseapp.com",
@@ -56,6 +58,7 @@ app.get('/hello',(req,res)=>{
                 res.cookie('companyName',user.companyName)
                 res.cookie('userName',user.name)
                 res.cookie('emailid',user.emailId)
+                res.cookie('key',user.licenseKey);
                 flag=false;
                 res.redirect('/dashboard')  
             }
@@ -109,6 +112,7 @@ app.get('/signout',(req,res)=>{
     Fire.auth().signOut();
     res.clearCookie('flag')
     res.clearCookie('hash')
+    res.clearCookie('key')
     res.redirect('/login');
 })
 app.get('/dashboard/updateProject',(req,res)=>{
@@ -422,12 +426,16 @@ app.post('/adduser',(req,res)=>{
     let phone=req.body.Phone;
     Fire.auth().createUserWithEmailAndPassword(emailId,pass).then(
         ()=>{
+            var key=req.cookies.key;
+            dec=cryptr.decrypt(key);
             json={emailId:emailId,
                 name:name,
                 phoneNumber:phone,
                 userType:req.body.type,
                 companyName:req.cookies.companyName,
-                companyHash:req.cookies.hash}
+                companyHash:req.cookies.hash,
+                licenseKey:dec
+            }
         firebase.database().ref('/User').child(sha256(emailId)).set(json).then(()=>{
             res.redirect('/dashboard');
         })
