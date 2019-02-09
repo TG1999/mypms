@@ -52,13 +52,14 @@ app.get('/hello',(req,res)=>{
         if(user)
         {
             if(user.userType=='Admin')
-            {
+            {   console.log(user.licenseKey);
+                   key=cryptr.encrypt(user.licenseKey)
                 res.cookie('hash',user.companyHash)
                 res.cookie('flag',str_tr)
                 res.cookie('companyName',user.companyName)
                 res.cookie('userName',user.name)
                 res.cookie('emailid',user.emailId)
-                res.cookie('key',user.licenseKey);
+                res.cookie('key',key);
                 flag=false;
                 res.redirect('/dashboard')  
             }
@@ -428,6 +429,7 @@ app.post('/adduser',(req,res)=>{
         ()=>{
             var key=req.cookies.key;
             dec=cryptr.decrypt(key);
+            console.log(dec);
             json={emailId:emailId,
                 name:name,
                 phoneNumber:phone,
