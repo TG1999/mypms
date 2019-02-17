@@ -209,7 +209,7 @@ app.post('/append',(req,res)=>{
     }
     if(countofmaterial==1){
         material={
-            boqquantity:req.body.qty_boq,
+            boqquantity:parseFloat(req.body.qty_boq),
             materialName:req.body.name_boq,
             procuredQuantity:0,
             unit:req.body.type_boq
@@ -225,7 +225,7 @@ app.post('/append',(req,res)=>{
     else{
         for(i=0;i<countofmaterial;i++){
             material={
-                boqquantity:req.body.qty_boq[i],
+                boqquantity:parseFloat(req.body.qty_boq[i]),
                 materialName:req.body.name_boq[i],
                 procuredQuantity:0,
                 unit:req.body.type_boq[i]
@@ -243,7 +243,7 @@ app.post('/append',(req,res)=>{
     	timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
         task={
             projectId:projectId,
-            taskCount:req.body.qty_task,
+            taskCount:parseFloat(req.body.qty_task),
             taskCountDone:0,
             taskDescription:req.body.description_task,
             taskId: timestamp,
@@ -264,7 +264,7 @@ app.post('/append',(req,res)=>{
     	timestamp =  timestamp.getDate()+"-"+month+"-"+timestamp.getFullYear()+"-"+timestamp.getTime();
         task={
             projectId:projectId,
-            taskCount:req.body.qty_task[i],
+            taskCount:parseFloat(req.body.qty_task[i]),
             taskCountDone:0,
             taskDescription:req.body.description_task[i],
             taskId: timestamp,
@@ -376,6 +376,7 @@ app.get("/dashboard/viewproject",(req,res)=>{
                         brr.push(mat[key]);
 
                     }
+                    console.log("brr logs: "+ JSON.stringify(brr));
                     console.log("mat: "+mat);
     
                     firebase.database().ref(req.cookies.hash+'/ProjectTask/'+id).once('value',(snapshot,err)=>{
@@ -490,7 +491,7 @@ app.post('/editProjectTask',(req,res)=>{
         var task=snapshot.val();
         console.log(task.taskName);
         task.taskDescription=req.body.taskdescription;
-        task.taskCount=req.body.count;
+        task.taskCount=parseFloat(req.body.count);
         // task.taskCountDone=req.body.donecount;
         task.unit=req.body.unit;
         firebase.database().ref(req.cookies.hash+'/ProjectTask/'+reditid+'/'+taskid).set(task);
@@ -505,7 +506,7 @@ app.post('/editProjectMaterial',(req,res)=>{
     console.log(boqid);
     firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).once('value',(snapshot,err)=>{
         boq=snapshot.val();
-        boq.boqquantity=req.body.boqquantity;
+        boq.boqquantity=parseFloat(req.body.boqquantity);
         // boq.procuredQuantity=req.body.procuredQuantity;
         boq.unit=req.body.unit2;
         firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).set(boq);
@@ -690,7 +691,7 @@ app.post('/assignSiteTask',(req,res)=>{
     var project = req.body.project;
     var site = req.body.site;
     var taskId = req.body.taskId;
-    var taskCount = req.body.taskCount;
+    var taskCount = parseFloat(req.body.taskCount);
     console.log("here is task Id: "+taskId)
    
     if(req.cookies.flag===str_tr){
