@@ -209,10 +209,11 @@ app.post('/append',(req,res)=>{
     }
     if(countofmaterial==1){
         material={
-            boqquantity:parseFloat(req.body.qty_boq),
+            boqQuantity:parseFloat(req.body.qty_boq),
             materialName:req.body.name_boq,
             procuredQuantity:0,
-            unit:req.body.type_boq
+            unit:req.body.type_boq,
+            projectId:projectId
         }
         console.log(material.unit);
         if (!(material.materialName ==='')&&(req.body.qty_boq)&&(req.body.name_boq)&&(req.body.type_boq)){
@@ -225,10 +226,11 @@ app.post('/append',(req,res)=>{
     else{
         for(i=0;i<countofmaterial;i++){
             material={
-                boqquantity:parseFloat(req.body.qty_boq[i]),
+                boqQuantity:parseFloat(req.body.qty_boq[i]),
                 materialName:req.body.name_boq[i],
                 procuredQuantity:0,
-                unit:req.body.type_boq[i]
+                unit:req.body.type_boq[i],
+                projectId:projectId
             }
             console.log(material.unit);
             if(!(firebase.database().ref(req.cookies.hash+'/ProjectMaterials').child(projectId).child(req.body.name_boq[i]).set(material)))
@@ -506,7 +508,7 @@ app.post('/editProjectMaterial',(req,res)=>{
     console.log(boqid);
     firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).once('value',(snapshot,err)=>{
         boq=snapshot.val();
-        boq.boqquantity=parseFloat(req.body.boqquantity);
+        boq.boqQuantity=parseFloat(req.body.boqquantity);
         // boq.procuredQuantity=req.body.procuredQuantity;
         boq.unit=req.body.unit2;
         firebase.database().ref(req.cookies.hash+'/ProjectMaterials/'+reditid+'/'+boqid).set(boq);
