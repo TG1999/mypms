@@ -262,7 +262,7 @@
                                                 <form method="POST" action="/adduser">
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Name:</label>
-                                                        <input type="text" class="form-control" name='name' minlength="2" pattern="[A-Za-z-']+\s[A-Za-z-']+" placeholder="Full name" required="required">
+                                                        <input type="text" class="form-control" name='name' minlength="2" pattern="^[A-Za-z -]+$" placeholder="Full name" required="required">
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="recipient-name" class="control-label">Email:</label>
